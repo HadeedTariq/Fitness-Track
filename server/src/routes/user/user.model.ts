@@ -21,7 +21,7 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      required: true,
+      required: false,
     },
     weight: {
       type: String,
