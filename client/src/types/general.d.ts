@@ -9,4 +9,12 @@ type User = {
   bmi: string;
 };
 
-export { User };
+type ErrResponse = {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+};
+
+export { User, ErrResponse };

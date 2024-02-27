@@ -13,4 +13,13 @@ export const registerValidator = z.object({
     .max(20, "Password must be less than 20 characters long"),
 });
 
+export const loginValidator = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
+    .max(20, "Password must be less than 20 characters long"),
+});
+
 export type RegisterValidator = z.infer<typeof registerValidator>;
+export type LoginValidator = z.infer<typeof loginValidator>;

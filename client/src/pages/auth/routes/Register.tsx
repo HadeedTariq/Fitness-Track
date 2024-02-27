@@ -1,47 +1,14 @@
-import { useForm } from "react-hook-form";
-import Gender from "./Gender";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  RegisterValidator,
-  registerValidator,
-} from "../validators/user.validator";
-import { useMutation } from "@tanstack/react-query";
-import { authApi } from "../../../utils/axios";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../reducers/authReducer";
-import { useToast } from "@chakra-ui/react";
+import Gender from "../_components/Gender";
+import { useRegisterForm } from "../hooks/useRegisterForm";
+import { RegisterValidator } from "../validators/user.validator";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-  const toast = useToast();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { reset, register, formState, handleSubmit } =
-    useForm<RegisterValidator>({
-      resolver: zodResolver(registerValidator),
-    });
-  const { mutate: registerAccount, isPending } = useMutation({
-    mutationKey: ["createAccount"],
-    mutationFn: async (user: RegisterValidator) => {
-      const { data } = await authApi.post("/sendOtp", user);
-      console.log(data);
-      dispatch(setUser(user));
-    },
-    onSuccess: () => {
-      toast({
-        title: "Please check your email to get otp",
-        status: "success",
-        isClosable: true,
-      });
-      reset();
-      setTimeout(() => {
-        navigate("/auth/otpChecker");
-      }, 1200);
-    },
-    onError: (err) => {
-      console.log(err);
-    },
-  });
+  const {
+    form: { register, formState, handleSubmit },
+    mutations: { mutate: registerAccount, isPending },
+  } = useRegisterForm();
+
   const createAccount = (user: RegisterValidator) => {
     console.log(user);
     user.age = user.age + " " + "years old";
@@ -190,9 +157,11 @@ const Register = () => {
 
                   <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                     Already have an account?
-                    <a href="#" className="text-gray-700 underline">
+                    <Link
+                      className="text-gray-700 underline"
+                      to={"/auth/login"}>
                       Log in
-                    </a>
+                    </Link>
                     .
                   </p>
                 </div>

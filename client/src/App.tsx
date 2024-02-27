@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import Register from "./pages/auth/_components/Register";
-import OtpHandler from "./pages/auth/_components/OtpHandler";
-import Login from "./pages/auth/_components/Login";
+import Register from "./pages/auth/routes/Register";
+import OtpHandler from "./pages/auth/routes/OtpHandler";
+import Login from "./pages/auth/routes/Login";
 
 const App = () => {
   return (
