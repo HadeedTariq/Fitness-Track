@@ -7,6 +7,7 @@ type User = {
   height: string;
   gender: string;
   bmi: string;
+  createdAt: string;
 };
 
 type ErrResponse = {
