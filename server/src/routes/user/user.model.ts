@@ -1,8 +1,24 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const userSchema = new Schema(
+export interface UserDocument extends Document {
+  username: string;
+  email: string;
+  avatar?: string;
+  weight: string;
+  age: string;
+  height: string;
+  gender: "male" | "female";
+  bmi: string;
+  password: string;
+  refreshToken?: string;
+  isPasswordCorrect(password: string): Promise<boolean>;
+  generateAccessToken(): string;
+  generateRefreshToken(): string;
+}
+
+const userSchema = new Schema<UserDocument>(
   {
     username: {
       type: String,
@@ -94,4 +110,4 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model<UserDocument>("User", userSchema);
