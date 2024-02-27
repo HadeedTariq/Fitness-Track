@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Router } from "express";
 import asyncHandler from "express-async-handler";
 import { generate as otpGenerator } from "otp-generator";
 import { Otp } from "./otp.model";
@@ -6,6 +6,7 @@ import { User } from "./user.model";
 import { existedUser } from "./user.middleware";
 import { calculateBmi } from "../../utils/bmiCalculator";
 import { generateAccessAndRefereshTokens } from "../../utils/refeshAccessTokenGeneratore";
+import { authChecker } from "../../middlewares/authChecker";
 
 const router = Router();
 
@@ -112,6 +113,20 @@ router.post(
       .cookie("refreshToken", refreshToken)
       .cookie("accessToken", accessToken)
       .json({ message: "User logged in successfully" });
+  })
+);
+
+router.get(
+  "/",
+  authChecker,
+  asyncHandler(async (req, res) => {
+    const user = req.body.user;
+    const userInfo = await User.findById(user._id).select(
+      "-password -refreshToken"
+    );
+    res
+      .status(200)
+      .json({ userInfo, message: "User info fetched successfully" });
   })
 );
 
