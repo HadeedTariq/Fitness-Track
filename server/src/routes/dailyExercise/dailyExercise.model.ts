@@ -13,6 +13,10 @@ const dailyExerciseSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
+    exerciseName: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

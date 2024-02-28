@@ -130,4 +130,16 @@ router.get(
   })
 );
 
+router.post(
+  "/logout",
+  authChecker,
+  asyncHandler(async (req, res) => {
+    res
+      .clearCookie("refreshToken")
+      .clearCookie("accessToken")
+      .status(200)
+      .json({ message: "User logged out successfully" });
+  })
+);
+
 export { router as userRouter };

@@ -2,14 +2,13 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
-import cookiParser from "cookie-parser";
-
+import cookieParser from "cookie-parser";
 import * as middlewares from "./middlewares";
 import MessageResponse from "./interfaces/MessageResponse";
 import { connectToDb } from "./connection/dbConnection";
 import { userRouter } from "./routes/user/user.routes";
-import cookieParser from "cookie-parser";
 import { dailyExerciseRouter } from "./routes/dailyExercise/dailyExercise.routes";
+import { exerciseRouter } from "./routes/exercise/exercise.routes";
 
 require("dotenv").config();
 
@@ -30,7 +29,8 @@ app.get<{}, MessageResponse>("/", (req, res) => {
   });
 });
 app.use("/user", userRouter);
-app.use("/daily", dailyExerciseRouter);
+app.use("/dailyExercise", dailyExerciseRouter);
+app.use("/exercise", exerciseRouter);
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });

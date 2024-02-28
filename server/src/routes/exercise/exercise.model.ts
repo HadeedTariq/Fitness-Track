@@ -2,8 +2,19 @@ import { Schema, model } from "mongoose";
 
 const exerciseSchema = new Schema(
   {
-    sets: {
+    exercises: {
       type: Number,
+      required: true,
+    },
+    setProperties: {
+      type: [
+        {
+          totalReps: Number,
+          setName: String,
+          eachSetReps: Number,
+          totalSets: Number,
+        },
+      ],
       required: true,
     },
     user: {
@@ -11,7 +22,11 @@ const exerciseSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
-    name: {
+    exerciseName: {
+      type: String,
+      required: true,
+    },
+    exerciseDay: {
       type: String,
       required: true,
     },
@@ -19,10 +34,6 @@ const exerciseSchema = new Schema(
       enum: ["lower", "upper"],
       type: String,
       required: true,
-    },
-    isCompleted: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true }
