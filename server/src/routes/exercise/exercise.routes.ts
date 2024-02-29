@@ -45,6 +45,47 @@ router.post(
     }
   })
 );
+router.put(
+  "/update",
+  authChecker,
+  asyncHandler(async (req, res, next) => {
+    const {
+      exercises,
+      exerciseName,
+      exerciseDay,
+      exerciseType,
+      user,
+      properties,
+    } = req.body;
+
+    if (
+      !exercises ||
+      !exerciseName ||
+      !exerciseDay ||
+      !exerciseType ||
+      !user ||
+      !properties
+    ) {
+      return next({ message: "Please fill all the fields", status: 404 });
+    }
+
+    const createExercise = await Exercises.findOneAndReplace(
+      { $and: [{ user: req.body.user._id }, { exerciseDay }] },
+      {
+        exercises,
+        exerciseName,
+        exerciseDay,
+        exerciseType,
+        user: user._id,
+        setProperties: properties,
+      }
+    );
+
+    if (createExercise) {
+      res.status(201).json({ message: "Exercise updated successfully" });
+    }
+  })
+);
 router.get(
   "/:day",
   authChecker,
