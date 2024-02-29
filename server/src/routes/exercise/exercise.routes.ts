@@ -36,13 +36,31 @@ router.post(
       exerciseName,
       exerciseDay,
       exerciseType,
-      user,
+      user: user._id,
       setProperties: properties,
     });
 
     if (createExercise) {
       res.status(201).json({ message: "Exercise created successfully" });
     }
+  })
+);
+router.get(
+  "/:day",
+  authChecker,
+  asyncHandler(async (req, res, next) => {
+    const { day } = req.params;
+    console.log(day);
+    if (!day) {
+      return next({ message: "Day is required", status: 404 });
+    }
+    const exercise = await Exercises.findOne({
+      $and: [{ user: req.body.user._id }, { exerciseDay: day }],
+    });
+
+    console.log(exercise);
+
+    res.status(200).json(exercise);
   })
 );
 

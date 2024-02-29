@@ -29,6 +29,7 @@ const exerciseSchema = new Schema(
     exerciseDay: {
       type: String,
       required: true,
+      unique: true,
     },
     exerciseType: {
       enum: ["lower", "upper"],
