@@ -60,7 +60,9 @@ const ExerciseHandler = ({
   return (
     <>
       {formState.errors.properties && (
-        <p>{formState.errors.properties.message}</p>
+        <p className="text-red-500 font-ubuntu text-[12px]">
+          {formState.errors.properties.message}
+        </p>
       )}
       <div key={index} className="flex items-center gap-2">
         <div>

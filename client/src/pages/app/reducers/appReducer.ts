@@ -38,9 +38,17 @@ const appReducer = createSlice({
       }
       state.exerciseProperties.push(payload);
     },
+    setExercisePropertiesEmpty: (state) => {
+      state.exerciseProperties = [];
+    },
   },
 });
 
 export default appReducer.reducer;
 
-export const { setUser, setDropDown, setProperties } = appReducer.actions;
+export const {
+  setUser,
+  setDropDown,
+  setProperties,
+  setExercisePropertiesEmpty,
+} = appReducer.actions;

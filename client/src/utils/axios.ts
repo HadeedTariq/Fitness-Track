@@ -10,4 +10,9 @@ const dailyExerciseApi = axios.create({
   withCredentials: true,
 });
 
-export { authApi, dailyExerciseApi };
+const exercisesApi = axios.create({
+  baseURL: `${url}/exercise`,
+  withCredentials: true,
+});
+
+export { authApi, dailyExerciseApi, exercisesApi };

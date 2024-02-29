@@ -34,7 +34,7 @@ const ExerciseDay = ({ day }: ExerciseDayProps) => {
           />
         )}
       </div>
-      {show === "up" && <ExerciseCreator day={day} />}
+      {show === "up" && <ExerciseCreator key={day} day={day} />}
     </div>
   );
 };

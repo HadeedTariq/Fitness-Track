@@ -10,7 +10,7 @@ const propertiesVaildator = z
       _id: z.string().optional(),
     })
   )
-  .min(1, { message: "Minimum ! exercise required" });
+  .min(1, { message: "Minimum 1 exercise required" });
 
 export type Properties = z.infer<typeof propertiesVaildator>;
 
