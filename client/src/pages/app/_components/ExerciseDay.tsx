@@ -16,7 +16,7 @@ type ExerciseDayProps = {
 const ExerciseDay = ({ day }: ExerciseDayProps) => {
   const [show, setShow] = useState<"up" | "down">("down");
   return (
-    <div className="border-2 rounded-md p-2 w-[80%] border-purple-500">
+    <div className="border-2 rounded-md p-2 w-[80%]  border-purple-500">
       <div className="flex items-center justify-between">
         <p>{day}</p>
         {show === "up" && (

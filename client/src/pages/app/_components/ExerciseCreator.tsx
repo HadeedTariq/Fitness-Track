@@ -5,14 +5,14 @@ import {
   ExerciseValidator,
   exerciseValidator,
 } from "../validators/exerciseValidator";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setExercisePropertiesEmpty } from "../reducers/appReducer";
 import { useMutation } from "@tanstack/react-query";
 import { exercisesApi } from "../../../utils/axios";
 import { useToast } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { Exercise } from "../types/app.Typesd";
+import { Exercise } from "../types/appTypes";
 import DayWiseExercise from "./DayWiseExercise";
 
 type ExerciseCreatorProps = {
@@ -27,11 +27,15 @@ type ExerciseCreatorProps = {
 };
 
 const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
+  const [showExercise, setShowExercise] = useState(false);
   const { data: exercise, isLoading } = useQuery({
     queryKey: [`${day}`],
     queryFn: async () => {
       const { data } = await exercisesApi.get(`/${day}`);
       console.log(data);
+      if (data !== null) {
+        setShowExercise(true);
+      }
       return data as Exercise;
     },
   });
@@ -41,11 +45,11 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
     useForm<ExerciseValidator>({
       resolver: zodResolver(exerciseValidator),
       values: {
-        exerciseDay: day,
-        exerciseName: "",
-        exercises: 0,
-        exerciseType: "lower",
-        properties: [],
+        exerciseDay: exercise?.exerciseDay || day,
+        exerciseName: exercise?.exerciseName || "",
+        exercises: exercise?.exercises || 0,
+        exerciseType: exercise?.exerciseType || "lower",
+        properties: exercise?.setProperties || [],
       },
     });
   const sets = watch("exercises");
@@ -63,6 +67,19 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
       reset();
     },
   });
+  const { mutate: updateExercise, isPending: isUpdationPending } = useMutation({
+    mutationKey: ["updateExercise"],
+    mutationFn: async (values: ExerciseValidator) => {
+      const { data } = await exercisesApi.put("/update", values);
+      toast({
+        title: "Exercise updated successfully" || data.message,
+        status: "success",
+        isClosable: true,
+        duration: 1000,
+      });
+      reset();
+    },
+  });
 
   const onSubmit = (values: ExerciseValidator) => {
     const realProperties = values.properties.map((property) => {
@@ -70,7 +87,12 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
       return property;
     });
     const realExercise = { ...values, properties: realProperties };
-    createExercise(realExercise);
+    if (!exercise) {
+      createExercise(realExercise);
+    }
+    if (exercise) {
+      updateExercise(realExercise);
+    }
   };
 
   useEffect(() => {
@@ -79,8 +101,15 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
   if (isLoading) return <h2>Loading...</h2>;
   return (
     <>
-      {exercise ? (
-        <DayWiseExercise exercise={exercise} />
+      {exercise && showExercise ? (
+        <>
+          <DayWiseExercise exercise={exercise} />
+          <button
+            className="text-[20px] w-full my-2 font-lato p-[4px] bg-purple-500 rounded-md text-white mx-3"
+            onClick={() => setShowExercise(false)}>
+            Update
+          </button>
+        </>
       ) : (
         <form
           className="flex flex-col items-center gap-2 p-2"
@@ -139,6 +168,7 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
               <div className="flex flex-col gap-2 items-center mt-2">
                 {Array.from({ length: sets })?.map((_, index) => (
                   <ExerciseHandler
+                    property={exercise?.setProperties[index]}
                     key={index}
                     index={index}
                     register={register}
@@ -152,9 +182,9 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
           </div>
           <button
             type="submit"
-            disabled={formState.disabled || isPending}
+            disabled={formState.disabled || isPending || isUpdationPending}
             className="bg-violet-500 font-lato p-2 text-[18px] text-white rounded-md w-full font-semibold hover:bg-violet-600/90 transition duration-300 disabled:bg-violet-400">
-            Create
+            {exercise ? "Update" : "Create"}
           </button>
         </form>
       )}

@@ -27,7 +27,8 @@ const appReducer = createSlice({
     },
     setProperties: (state, { payload }: { payload: Properties[0] }) => {
       const isPropertyAlreadyExist = state.exerciseProperties.find(
-        (property) => property._id === payload._id
+        (property) =>
+          property._id === payload._id || property.setName === payload.setName
       );
       if (isPropertyAlreadyExist) {
         const filterProperties = state.exerciseProperties.filter(

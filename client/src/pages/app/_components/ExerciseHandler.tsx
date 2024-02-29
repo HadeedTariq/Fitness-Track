@@ -10,6 +10,7 @@ import { v4 as uuid } from "uuid";
 import { useDispatch } from "react-redux";
 import { setProperties } from "../reducers/appReducer";
 import { useApp } from "../hooks/useApp";
+import { Exercise } from "../types/appTypes";
 
 type ExerciseHandlerProps = {
   index: number;
@@ -17,18 +18,20 @@ type ExerciseHandlerProps = {
   setValue: UseFormSetValue<ExerciseValidator>;
   formState: FormState<ExerciseValidator>;
   watch: UseFormWatch<ExerciseValidator>;
+  property: Exercise["setProperties"][0] | undefined;
 };
 
 const ExerciseHandler = ({
   index,
   setValue,
   formState,
+  property,
 }: ExerciseHandlerProps) => {
   const { exerciseProperties } = useApp();
-  const [nameOfSet, setNameOfSet] = useState("");
-  const [totalSets, setTotalSets] = useState(0);
-  const [totalReps, setTotalReps] = useState(0);
-  const [eachSetReps, setEachSetReps] = useState(0);
+  const [nameOfSet, setNameOfSet] = useState(property?.setName || "");
+  const [totalSets, setTotalSets] = useState(property?.totalSets || 0);
+  const [totalReps, setTotalReps] = useState(property?.totalReps || 0);
+  const [eachSetReps, setEachSetReps] = useState(property?.eachSetReps || 0);
   const dispatch = useDispatch();
   const _id = useMemo(() => {
     return uuid();
