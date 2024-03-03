@@ -4,7 +4,11 @@ import { Schema, model } from "mongoose";
 
 const dailyExerciseSchema = new Schema(
   {
-    exerciseTime: {
+    exerciseTimeInMinutes: {
+      type: Number,
+      required: true,
+    },
+    exerciseTimeInSeconds: {
       type: Number,
       required: true,
     },

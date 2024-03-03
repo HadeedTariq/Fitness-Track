@@ -9,15 +9,17 @@ router.use(authChecker);
 router.post(
   "/done",
   asyncHandler(async (req, res, next) => {
-    const { exerciseTime, userId, exerciseName } = req.body;
+    const { exerciseTimeInSeconds, exerciseTimeInMinutes, exerciseName } =
+      req.body;
 
-    if (!exerciseTime || !userId || !exerciseName) {
+    if (!exerciseTimeInSeconds || !exerciseTimeInMinutes || !exerciseName) {
       return next({ message: "Please fill all the fields", status: 404 });
     }
 
     const userTodayExercise = await DailyExercise.create({
-      exerciseTime,
-      user: userId,
+      exerciseTimeInSeconds,
+      exerciseTimeInMinutes,
+      user: req.body.user._id,
       exerciseName,
     });
     if (userTodayExercise) {
@@ -32,13 +34,7 @@ router.get(
     const exercise = await DailyExercise.findOne({
       user: req.body.user._id,
     }).sort({ createdAt: -1 });
-
-    if (exercise) {
-      res.status(200).json(exercise);
-      return;
-    } else {
-      next({});
-    }
+    res.status(200).json(exercise);
   })
 );
 

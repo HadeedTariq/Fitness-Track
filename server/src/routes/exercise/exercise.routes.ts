@@ -69,7 +69,7 @@ router.put(
       return next({ message: "Please fill all the fields", status: 404 });
     }
 
-    const createExercise = await Exercises.findOneAndReplace(
+    const updateExercise = await Exercises.findOneAndReplace(
       { $and: [{ user: req.body.user._id }, { exerciseDay }] },
       {
         exercises,
@@ -81,7 +81,7 @@ router.put(
       }
     );
 
-    if (createExercise) {
+    if (updateExercise) {
       res.status(201).json({ message: "Exercise updated successfully" });
     }
   })
