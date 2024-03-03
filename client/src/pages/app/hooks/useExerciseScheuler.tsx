@@ -29,7 +29,7 @@ type HookProps = {
 export const useExerciseScheduler = ({ day, setShowExercise }: HookProps) => {
   const queryClient = useQueryClient();
   const { data: exercise, isLoading } = useQuery({
-    queryKey: [`${day}`],
+    queryKey: [`${day}Exercise`],
     queryFn: async () => {
       const { data } = await exercisesApi.get(`/${day}`);
       console.log(data);

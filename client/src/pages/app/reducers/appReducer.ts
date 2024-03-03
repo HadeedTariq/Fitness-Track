@@ -1,18 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../../types/general";
 import { Properties } from "../validators/exerciseValidator";
-import { v4 as uuid } from "uuid";
 
 export type AppState = {
   user: User | null;
   dropdown: boolean;
   exerciseProperties: Properties;
+  completedExercises: string[];
 };
+
+const completedExercises = JSON.parse(
+  localStorage.getItem("completedExercises") as string
+);
 
 const initialState: AppState = {
   user: null,
   dropdown: false,
   exerciseProperties: [],
+  completedExercises: completedExercises || [],
 };
 
 const appReducer = createSlice({
@@ -42,6 +47,13 @@ const appReducer = createSlice({
     setExercisePropertiesEmpty: (state) => {
       state.exerciseProperties = [];
     },
+    setCompletedExercises: (state, { payload }: { payload: string }) => {
+      state.completedExercises.push(payload);
+      localStorage.setItem(
+        "completedExercises",
+        JSON.stringify(state.completedExercises)
+      );
+    },
   },
 });
 
@@ -52,4 +64,5 @@ export const {
   setDropDown,
   setProperties,
   setExercisePropertiesEmpty,
+  setCompletedExercises,
 } = appReducer.actions;

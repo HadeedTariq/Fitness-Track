@@ -27,7 +27,7 @@ const HomeBar = () => {
         <NavBar />
       </div>
       <div className="flex gap-2">
-        <div className="relative w-[180px] h-[94.1vh] ">
+        <div className="relative w-[210px] h-[94.1vh] ">
           <SideBar />
         </div>
         <Outlet />

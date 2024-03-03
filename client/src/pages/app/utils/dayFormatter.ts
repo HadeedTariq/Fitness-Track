@@ -1,5 +1,8 @@
 const dayFormatter = (day: number) => {
   let d;
+  if (day === 0) {
+    d = "Sunday";
+  }
   if (day === 1) {
     d = "Monday";
   }
@@ -18,9 +21,7 @@ const dayFormatter = (day: number) => {
   if (day === 6) {
     d = "Saturday";
   }
-  if (day === 7) {
-    d = "Sunday";
-  }
+  console.log(d);
   return d;
 };
 
