@@ -2,6 +2,7 @@ import { Exercise } from "../types/appTypes";
 import { GiBiceps } from "react-icons/gi";
 import WorkoutTable from "./WorkoutTable";
 import { useState } from "react";
+import WorkoutTimer from "./WorkoutTimer";
 
 type WorkoutHandlerProps = {
   exercise: Exercise;
@@ -38,6 +39,11 @@ const WorkoutHandler = ({ exercise }: WorkoutHandlerProps) => {
               key={property._id}
             />
           ))}
+        </div>
+      )}
+      {startExercise && (
+        <div className="flex flex-col gap-3">
+          <WorkoutTimer exercise={exercise} />
         </div>
       )}
     </div>
