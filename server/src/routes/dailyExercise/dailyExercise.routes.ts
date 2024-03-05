@@ -11,7 +11,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { exerciseTimeInSeconds, exerciseTimeInMinutes, exerciseName } =
       req.body;
-
+    console.log(req.body);
     if (!exerciseTimeInSeconds || !exerciseTimeInMinutes || !exerciseName) {
       return next({ message: "Please fill all the fields", status: 404 });
     }

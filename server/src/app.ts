@@ -9,6 +9,7 @@ import { connectToDb } from "./connection/dbConnection";
 import { userRouter } from "./routes/user/user.routes";
 import { dailyExerciseRouter } from "./routes/dailyExercise/dailyExercise.routes";
 import { exerciseRouter } from "./routes/exercise/exercise.routes";
+import { dietRouter } from "./routes/diet/diet.routes";
 
 require("dotenv").config();
 
@@ -31,6 +32,7 @@ app.get<{}, MessageResponse>("/", (req, res) => {
 app.use("/user", userRouter);
 app.use("/dailyExercise", dailyExerciseRouter);
 app.use("/exercise", exerciseRouter);
+app.use("/diet", dietRouter);
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });

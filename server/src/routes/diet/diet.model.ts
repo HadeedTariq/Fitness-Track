@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const dietSchema = new Schema(
   {
-    quantity: {
+    totalMeals: {
       type: Number,
       required: true,
     },
@@ -11,18 +11,9 @@ const dietSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
-    name: {
-      type: String,
+    mealProperties: {
+      type: [{ mealName: String, mealTime: String, calories: Number }],
       required: true,
-    },
-    dietTime: {
-      enum: ["day", "evening", "dinner"],
-      type: String,
-      required: true,
-    },
-    isCompleted: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true }
