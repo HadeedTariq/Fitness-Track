@@ -1,7 +1,11 @@
 import { useState, useRef } from "react";
 import { useApp } from "../hooks/useApp";
 import { Exercise } from "../types/appTypes";
-import { useMutation } from "@tanstack/react-query";
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { dailyExerciseApi } from "../../../utils/axios";
 import { useToast } from "@chakra-ui/react";
 
@@ -43,7 +47,6 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
     clearInterval(intervalRef.current);
     setTimerOn(false);
   };
-
   const resetTimer = () => {
     clearInterval(intervalRef.current);
     setTimerOn(false);
@@ -52,6 +55,7 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
   };
 
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["completeTodayExercise"],
@@ -67,8 +71,20 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
         isClosable: true,
       });
     },
+    onSuccess: () => {
+      localStorage.removeItem("completedExercises");
+      localStorage.removeItem("workoutTime");
+      queryClient.invalidateQueries([
+        "dailyExercise",
+        0,
+      ] as InvalidateQueryFilters);
+    },
     onError: (err) => {
-      console.log(err);
+      toast({
+        title: "Time must be more than 1 minute" || data.message,
+        status: "error",
+        isClosable: true,
+      });
     },
   });
   const workoutCompleted = () => {

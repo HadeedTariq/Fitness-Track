@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../../types/general";
 import { Properties } from "../validators/exerciseValidator";
+import { DietMealValidator } from "../validators/diet.validator";
 
 export type AppState = {
   user: User | null;
   dropdown: boolean;
   exerciseProperties: Properties;
+  dietProperties: DietMealValidator;
   completedExercises: string[];
 };
 
@@ -18,6 +20,7 @@ const initialState: AppState = {
   dropdown: false,
   exerciseProperties: [],
   completedExercises: completedExercises || [],
+  dietProperties: [],
 };
 
 const appReducer = createSlice({
@@ -54,6 +57,23 @@ const appReducer = createSlice({
         JSON.stringify(state.completedExercises)
       );
     },
+    setDietProperties: (
+      state,
+      { payload }: { payload: DietMealValidator[0] & { _id: string } }
+    ) => {
+      const isPropertyAlreadyExist = state.dietProperties.find(
+        (property) =>
+          property._id === payload._id || property.mealName === payload.mealName
+      );
+      if (isPropertyAlreadyExist) {
+        const filterProperties = state.dietProperties.filter(
+          (property) => property._id !== isPropertyAlreadyExist._id
+        );
+        state.dietProperties = [...filterProperties, payload];
+        return;
+      }
+      state.dietProperties.push(payload);
+    },
   },
 });
 
@@ -65,4 +85,5 @@ export const {
   setProperties,
   setExercisePropertiesEmpty,
   setCompletedExercises,
+  setDietProperties,
 } = appReducer.actions;

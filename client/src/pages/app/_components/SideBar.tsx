@@ -23,6 +23,15 @@ const SideBar = () => {
         }`}>
         Exercise Schedule
       </Link>
+      <Link
+        to={"dietSchedule"}
+        className={`text-[18px] font-lato font-[500]  p-2  text-white cursor-pointer w-full ${
+          pathname === "/dietSchedule"
+            ? "bg-violet-500 scale-105"
+            : "bg-purple-500"
+        }`}>
+        Diet Schedule
+      </Link>
     </div>
   );
 };
