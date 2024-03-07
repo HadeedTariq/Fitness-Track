@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { dailyExerciseApi } from "../../../utils/axios";
 import { useToast } from "@chakra-ui/react";
+import { ErrResponse } from "../../../types/general";
 
 type WorkoutTimerProps = {
   exercise: Exercise;
@@ -79,9 +80,9 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
         0,
       ] as InvalidateQueryFilters);
     },
-    onError: (err) => {
+    onError: (err: ErrResponse) => {
       toast({
-        title: "Time must be more than 1 minute" || data.message,
+        title: "Time must be more than 1 minute" || err.response.data.message,
         status: "error",
         isClosable: true,
       });
