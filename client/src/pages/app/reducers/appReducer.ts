@@ -74,6 +74,9 @@ const appReducer = createSlice({
       }
       state.dietProperties.push(payload);
     },
+    setDietPropertiesEmpty: (state) => {
+      state.dietProperties = [];
+    },
   },
 });
 
@@ -86,4 +89,5 @@ export const {
   setExercisePropertiesEmpty,
   setCompletedExercises,
   setDietProperties,
+  setDietPropertiesEmpty,
 } = appReducer.actions;

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { v4 as uuid } from "uuid";
 import {
   FormState,
   UseFormRegister,
@@ -6,6 +7,9 @@ import {
   UseFormWatch,
 } from "react-hook-form";
 import { DietMealValidator, DietValidator } from "../validators/diet.validator";
+import { useDispatch } from "react-redux";
+import { setDietProperties } from "../reducers/appReducer";
+import { useApp } from "../hooks/useApp";
 
 type ExerciseHandlerProps = {
   index: number;
@@ -22,14 +26,26 @@ const DietHandler = ({
   meals,
   setValue,
 }: ExerciseHandlerProps) => {
+  const dispatch = useDispatch();
+  const { dietProperties } = useApp();
   const [mealName, setMealName] = useState(meals?.mealName || "");
   const [mealTime, setMealTime] = useState(meals?.mealTime || "");
   const [calories, setCalories] = useState(meals?.calories || 0);
 
+  const _id = useMemo(() => {
+    return uuid();
+  }, []);
+
   useEffect(() => {
     if (mealName.length > 3 && mealTime.length > 3 && calories > 0) {
+      dispatch(setDietProperties({ mealName, _id, calories, mealTime }));
     }
   }, [mealName, calories, mealTime]);
+  useEffect(() => {
+    if (dietProperties.length > 0) {
+      setValue("mealProperties", dietProperties);
+    }
+  }, [dietProperties]);
   return (
     <>
       {formState.errors.mealProperties && (

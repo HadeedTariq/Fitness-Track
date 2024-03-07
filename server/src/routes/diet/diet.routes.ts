@@ -24,8 +24,8 @@ router.post(
     const createdMeal = await Diet.create({
       totalMeals,
       mealProperties,
+      user: req.body?.user._id,
     });
-
     res.status(201).json({ message: "Your diet created successfully" });
   })
 );

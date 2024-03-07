@@ -2,10 +2,16 @@ import { useForm } from "react-hook-form";
 import { DietValidator, dietValidator } from "../validators/diet.validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DietHandler from "../_components/DietHandler";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { dietApi } from "../../../utils/axios";
+import { useEffect } from "react";
+import { setDietPropertiesEmpty } from "../reducers/appReducer";
+import { useDispatch } from "react-redux";
+import { useToast } from "@chakra-ui/react";
 
 const DietSchedule = () => {
+  const toast = useToast();
+  const dispatch = useDispatch();
   const { data: diet } = useQuery({
     queryKey: ["getUserDiet"],
     queryFn: async () => {
@@ -15,6 +21,18 @@ const DietSchedule = () => {
       } else {
         return null;
       }
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["createDiet"],
+    mutationFn: async (diet: DietValidator) => {
+      const { data } = await dietApi.post("/create", diet);
+      toast({
+        title: "Diet Created successfully" || data.message,
+        isClosable: true,
+        status: "success",
+      });
     },
   });
 
@@ -28,10 +46,19 @@ const DietSchedule = () => {
     });
 
   const totalMeals = watch("totalMeals");
-
+  console.log(totalMeals);
   const onSubmit = (values: DietValidator) => {
     console.log(values);
+    const diet = values.mealProperties.map((meal) => {
+      delete meal._id;
+      return meal;
+    });
+    mutate({ ...values, mealProperties: diet });
   };
+
+  useEffect(() => {
+    dispatch(setDietPropertiesEmpty());
+  }, [totalMeals]);
   return (
     <>
       <form
@@ -69,7 +96,7 @@ const DietSchedule = () => {
         </div>
         <button
           type="submit"
-          disabled={formState.disabled}
+          disabled={formState.disabled || isPending}
           className="bg-violet-500 font-lato p-2 text-[18px] text-white rounded-md w-full font-semibold hover:bg-violet-600/90 transition duration-300 disabled:bg-violet-400">
           {"Create"}
         </button>
