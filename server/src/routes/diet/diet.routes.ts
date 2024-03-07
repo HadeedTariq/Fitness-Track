@@ -21,12 +21,31 @@ router.post(
     if (!totalMeals || !mealProperties) {
       return next({ message: "Please fill all the fields", status: 404 });
     }
-    const createdMeal = await Diet.create({
+    const createdDiet = await Diet.create({
       totalMeals,
       mealProperties,
       user: req.body?.user._id,
     });
     res.status(201).json({ message: "Your diet created successfully" });
+  })
+);
+
+router.put(
+  "/update",
+  asyncHandler(async (req, res, next) => {
+    const { totalMeals, mealProperties } = req.body;
+    if (!totalMeals || !mealProperties) {
+      return next({ message: "Please fill all the fields", status: 404 });
+    }
+    const updateDiet = await Diet.findOneAndReplace(
+      { user: req.body?.user._id },
+      {
+        totalMeals,
+        mealProperties,
+        user: req.body?.user._id,
+      }
+    );
+    res.status(201).json({ message: "Your diet updated successfully" });
   })
 );
 
