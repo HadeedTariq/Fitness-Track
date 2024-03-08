@@ -19,7 +19,13 @@ const port = process.env.PORT || 3001;
 connectToDb(process.env.MONGO_URI!);
 app.use(morgan("dev"));
 app.use(helmet());
-app.use(cors({ origin: process.env.FRONT_END_ORIGIN!, credentials: true }));
+app.use(
+  cors({
+    origin: process.env.FRONT_END_ORIGIN!,
+    credentials: true,
+    exposedHeaders: ["Set-Cookie"],
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

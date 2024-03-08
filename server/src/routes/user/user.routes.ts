@@ -110,8 +110,16 @@ router.post(
 
     res
       .status(200)
-      .cookie("refreshToken", refreshToken)
-      .cookie("accessToken", accessToken)
+      .cookie("refreshToken", refreshToken, {
+        secure: true,
+        httpOnly: false,
+        sameSite: "none",
+      })
+      .cookie("accessToken", accessToken, {
+        secure: true,
+        httpOnly: false,
+        sameSite: "none",
+      })
       .json({ message: "User logged in successfully" });
   })
 );
