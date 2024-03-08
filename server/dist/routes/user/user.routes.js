@@ -94,11 +94,13 @@ router.post("/login", (0, express_async_handler_1.default)(async (req, res, next
         secure: true,
         httpOnly: false,
         sameSite: "none",
+        maxAge: 24 * 60 * 60 * 15,
     })
         .cookie("accessToken", accessToken, {
         secure: true,
         httpOnly: false,
         sameSite: "none",
+        maxAge: 24 * 60 * 60 * 7,
     })
         .json({ message: "User logged in successfully" });
 }));
