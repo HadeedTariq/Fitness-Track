@@ -5,6 +5,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+
+
 # Runtime data
 pids
 *.pid
@@ -73,4 +75,5 @@ typings/
 # Serverless directories
 .serverless
 
-dist
+# Ignore built ts files
+#dist
