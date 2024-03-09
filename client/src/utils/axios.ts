@@ -18,5 +18,9 @@ const dietApi = axios.create({
   baseURL: `${url}/diet`,
   withCredentials: true,
 });
+const postApi = axios.create({
+  baseURL: `${url}/post`,
+  withCredentials: true,
+});
 
-export { authApi, dailyExerciseApi, exercisesApi, dietApi };
+export { authApi, dailyExerciseApi, exercisesApi, dietApi, postApi };

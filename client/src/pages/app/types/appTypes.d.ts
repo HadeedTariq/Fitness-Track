@@ -23,5 +23,23 @@ type Exercise = {
   exerciseType: "lower" | "upper";
   createdAt: string;
 };
+type Post = {
+  title: string;
+  _id: string;
+  description: string;
+  comments: Array;
+};
+type UserProfile = {
+  username: string;
+  email: string;
+  weight: string;
+  age: string;
+  height: string;
+  gender: string;
+  bmi: string;
+  createdAt: string;
+  updatedAt: string;
+  myPosts: Post[];
+};
 
-export { Exercise, ExerciseProperties };
+export { Exercise, ExerciseProperties, UserProfile };

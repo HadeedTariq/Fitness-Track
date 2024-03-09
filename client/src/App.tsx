@@ -8,6 +8,8 @@ import AuthProtector from "./pages/auth/_components/AuthProtector";
 import StartExercise from "./pages/app/routes/StartExercise";
 import ExerciseSchedule from "./pages/app/routes/ExerciseSchedule";
 import DietSchedule from "./pages/app/routes/DietSchedule";
+import MyProfile from "./pages/app/routes/MyProfile";
+import CreatePost from "./pages/app/routes/CreatePost";
 
 const App = () => {
   return (
@@ -17,6 +19,10 @@ const App = () => {
         <Route path="startExercise" element={<StartExercise />} />
         <Route path="exerciseSchedule" element={<ExerciseSchedule />} />
         <Route path="dietSchedule" element={<DietSchedule />} />
+        <Route path="dashboard">
+          <Route index element={<MyProfile />} />
+          <Route path="createPost" element={<CreatePost />} />
+        </Route>
       </Route>
       <Route path="/auth" element={<AuthProtector />}>
         <Route path="register" element={<Register />} />

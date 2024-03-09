@@ -20,7 +20,9 @@ const UserDropDown = () => {
         isClosable: true,
       });
       dispatch(setUser(null));
-      navigate("/auth/login");
+    },
+    onSuccess: () => {
+      window.location.reload();
     },
   });
   return (
