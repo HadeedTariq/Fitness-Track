@@ -26,11 +26,13 @@ const HomeBar = () => {
       <div className="relative h-[50px]">
         <NavBar />
       </div>
-      <div className="flex gap-2">
-        <div className="relative w-[210px] h-[94.1vh] ">
+      <div className="flex gap-2 w-full">
+        <div className="relative w-[220px] h-[94.1vh] ">
           <SideBar />
         </div>
-        <Outlet />
+        <div className="w-full">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

@@ -82,7 +82,7 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
     },
     onError: (err: ErrResponse) => {
       toast({
-        title: "Time must be more than 1 minute" || err.response.data.message,
+        title: err.response.data.message || "Time must be more than 1 minute",
         status: "error",
         isClosable: true,
       });

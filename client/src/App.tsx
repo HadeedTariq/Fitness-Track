@@ -10,6 +10,10 @@ import ExerciseSchedule from "./pages/app/routes/ExerciseSchedule";
 import DietSchedule from "./pages/app/routes/DietSchedule";
 import MyProfile from "./pages/app/routes/MyProfile";
 import CreatePost from "./pages/app/routes/CreatePost";
+import AllMyPosts from "./pages/app/routes/AllMyPost";
+import WeeklyProgress from "./pages/app/routes/WeeklyProgress";
+import MonthlyProgress from "./pages/app/routes/MonthlyProgress";
+import TotalProgress from "./pages/app/routes/TotalProgress";
 
 const App = () => {
   return (
@@ -22,6 +26,12 @@ const App = () => {
         <Route path="dashboard">
           <Route index element={<MyProfile />} />
           <Route path="createPost" element={<CreatePost />} />
+          <Route path="allMyPosts" element={<AllMyPosts />} />
+          //!Todo
+          <Route path="weeklyProgress" element={<WeeklyProgress />} />
+          //!Todo
+          <Route path="monthlyProgress" element={<MonthlyProgress />} />
+          <Route path="totalProgress" element={<TotalProgress />} />
         </Route>
       </Route>
       <Route path="/auth" element={<AuthProtector />}>

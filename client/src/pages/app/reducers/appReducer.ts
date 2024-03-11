@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../../types/general";
 import { Properties } from "../validators/exerciseValidator";
 import { DietMealValidator } from "../validators/diet.validator";
+import { UserProfile } from "../types/appTypes";
 
 export type AppState = {
   user: User | null;
@@ -9,6 +10,8 @@ export type AppState = {
   exerciseProperties: Properties;
   dietProperties: DietMealValidator;
   completedExercises: string[];
+  myPosts: UserProfile["myPosts"];
+  myOverAllProgress: UserProfile["overAOlProgress"];
 };
 
 const completedExercises = JSON.parse(
@@ -21,6 +24,8 @@ const initialState: AppState = {
   exerciseProperties: [],
   completedExercises: completedExercises || [],
   dietProperties: [],
+  myPosts: [],
+  myOverAllProgress: [],
 };
 
 const appReducer = createSlice({
@@ -77,6 +82,15 @@ const appReducer = createSlice({
     setDietPropertiesEmpty: (state) => {
       state.dietProperties = [];
     },
+    setMyPosts: (state, { payload }: { payload: UserProfile["myPosts"] }) => {
+      state.myPosts = payload;
+    },
+    setMyOverAllProgress: (
+      state,
+      { payload }: { payload: UserProfile["overAOlProgress"] }
+    ) => {
+      state.myOverAllProgress = payload;
+    },
   },
 });
 
@@ -90,4 +104,6 @@ export const {
   setCompletedExercises,
   setDietProperties,
   setDietPropertiesEmpty,
+  setMyPosts,
+  setMyOverAllProgress,
 } = appReducer.actions;

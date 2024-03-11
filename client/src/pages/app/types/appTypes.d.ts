@@ -29,6 +29,13 @@ type Post = {
   description: string;
   comments: Array;
 };
+type OverAllProgress = {
+  exerciseTimeInMinutes: number;
+  exerciseTimeInSeconds: number;
+  exerciseName: string;
+  _id: string;
+  createdAt: string;
+};
 type UserProfile = {
   username: string;
   email: string;
@@ -40,6 +47,7 @@ type UserProfile = {
   createdAt: string;
   updatedAt: string;
   myPosts: Post[];
+  overAOlProgress: overAllProgress[];
 };
 
 export { Exercise, ExerciseProperties, UserProfile };
