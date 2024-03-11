@@ -91,7 +91,6 @@ router.get(
   authChecker,
   asyncHandler(async (req, res, next) => {
     const { day } = req.params;
-    console.log(day);
     if (!day) {
       return next({ message: "Day is required", status: 404 });
     }

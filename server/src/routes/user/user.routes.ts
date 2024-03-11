@@ -7,6 +7,7 @@ import { existedUser } from "./user.middleware";
 import { calculateBmi } from "../../utils/bmiCalculator";
 import { generateAccessAndRefereshTokens } from "../../utils/refeshAccessTokenGeneratore";
 import { authChecker } from "../../middlewares/authChecker";
+import mongoose from "mongoose";
 
 const router = Router();
 
@@ -114,13 +115,11 @@ router.post(
         secure: true,
         httpOnly: false,
         sameSite: "none",
-        maxAge: 24 * 60 * 60 * 15,
       })
       .cookie("accessToken", accessToken, {
         secure: true,
         httpOnly: false,
         sameSite: "none",
-        maxAge: 24 * 60 * 60 * 7,
       })
       .json({ message: "User logged in successfully" });
   })
@@ -149,6 +148,70 @@ router.post(
       .clearCookie("accessToken")
       .status(200)
       .json({ message: "User logged out successfully" });
+  })
+);
+
+router.get(
+  "/profile",
+  authChecker,
+  asyncHandler(async (req, res, next) => {
+    const _id = req.body.user?._id;
+
+    const userProfile = await User.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(_id) },
+      },
+      // ! lookup for user posts
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "user",
+          as: "myPosts",
+          pipeline: [
+            {
+              $project: {
+                title: 1,
+                description: 1,
+                comments: 1,
+                _id: 1,
+              },
+            },
+          ],
+        },
+      },
+      // ! lookup for weekly progress
+      {
+        $lookup: {
+          from: "dailyexercises",
+          localField: "_id",
+          foreignField: "user",
+          as: "overAllProgress",
+          pipeline: [
+            {
+              $project: {
+                exerciseTimeInMinutes: 1,
+                exerciseTimeInSeconds: 1,
+                exerciseName: 1,
+                createdAt: 1,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $project: {
+          password: 0,
+          refreshToken: 0,
+          _id: 0,
+        },
+      },
+    ]);
+    if (userProfile) {
+      res.status(200).json(userProfile[0]);
+    } else {
+      next({ message: "User not found", status: 404 });
+    }
   })
 );
 

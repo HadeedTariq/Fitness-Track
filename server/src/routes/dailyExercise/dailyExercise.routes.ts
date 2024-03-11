@@ -33,7 +33,9 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const exercise = await DailyExercise.findOne({
       user: req.body.user._id,
-    }).sort({ createdAt: -1 });
+    })
+      .sort({ createdAt: -1 })
+      .select("-exerciseTimeInMinutes -exerciseTimeInSeconds");
     res.status(200).json(exercise);
   })
 );
