@@ -6,7 +6,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  YAxis,
 } from "recharts";
 import { getDateDay } from "../utils/dayFormatter";
 
