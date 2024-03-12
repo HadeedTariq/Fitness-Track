@@ -1,14 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { MdLogout } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { authApi } from "../../../utils/axios";
 import { useToast } from "@chakra-ui/react";
 import { setUser } from "../reducers/appReducer";
 
 const UserDropDown = () => {
   const toast = useToast();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { mutate: logoutUser, isPending } = useMutation({
     mutationKey: ["logoutUser"],
