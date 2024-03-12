@@ -1,36 +1,69 @@
-import { useState } from "react";
 import { useApp } from "../hooks/useApp";
-
-import { AgChartsReact } from "ag-charts-react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  YAxis,
+} from "recharts";
+import { getDateDay } from "../utils/dayFormatter";
 
 const TotalProgress = () => {
   const { myOverAllProgress } = useApp();
-  function getData() {
-    return myOverAllProgress;
-  }
 
-  const [options, setOptions] = useState({
-    title: {
-      text: "My Workout Total Progress",
-    },
-    data: getData(),
-    series: [
-      {
-        type: "bar",
-        xKey: "exerciseName",
-        yKey: "exerciseTimeInMinutes",
-        yName: "Exercise Time In Minutes",
-      },
-      {
-        type: "bar",
-        xKey: "exerciseTimeInSeconds",
-        yKey: "exerciseTimeInSeconds",
-        yName: "Exercise Time In Seconds",
-      },
-    ],
+  const chartData = myOverAllProgress.map((progress) => {
+    const [day, date] = getDateDay(progress.createdAt);
+    return { ...progress, createdAt: day, exerciseDate: String(date) };
   });
 
-  return <AgChartsReact options={options} />;
+  return (
+    <ResponsiveContainer
+      className={"mx-2 max-[650px]:overflow-x-scroll max-[650px]:w-[110vw] "}
+      width="98%"
+      height="100%"
+      maxHeight={1000}
+      minWidth={500}>
+      <AreaChart
+        className="w-[200px] h-[200px]"
+        data={chartData}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey={"exerciseDate"} />
+        <Tooltip />
+        <Area
+          type="monotone"
+          dataKey="createdAt"
+          stroke="green"
+          fill="#8884d8"
+        />
+        <Area
+          type="monotone"
+          dataKey="exerciseName"
+          stroke="blue"
+          fill="#8884d8"
+        />
+        <Area
+          type="monotone"
+          dataKey="exerciseTimeInMinutes"
+          stroke="#8884d8"
+          fill="#8884d8"
+        />
+        <Area
+          type="monotone"
+          dataKey="exerciseTimeInSeconds"
+          stroke="red"
+          fill="#8884d8"
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  );
 };
 
 export default TotalProgress;

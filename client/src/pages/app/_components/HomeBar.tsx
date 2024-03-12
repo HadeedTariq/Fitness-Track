@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../reducers/appReducer";
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
+import SideBarDrawer from "./SideBarDrawer";
 
 const HomeBar = () => {
   const dispatch = useDispatch();
@@ -27,8 +28,11 @@ const HomeBar = () => {
         <NavBar />
       </div>
       <div className="flex gap-2 w-full">
-        <div className="relative w-[220px] h-[94.1vh] ">
+        <div className="relative w-[220px] h-[94.1vh] max-[700px]:hidden">
           <SideBar />
+        </div>
+        <div className="min-[700px]:hidden">
+          <SideBarDrawer />
         </div>
         <div className="w-full">
           <Outlet />

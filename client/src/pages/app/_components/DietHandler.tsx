@@ -55,7 +55,9 @@ const DietHandler = ({
       )}
       <div key={index} className="flex items-center gap-2">
         <div>
-          <p className="font-roboto-mono">Meal{index + 1} Name</p>
+          <p className="font-roboto-mono max-[450px]:text-[10px]">
+            Meal{index + 1} Name
+          </p>
           <input
             type="text"
             value={mealName}
@@ -65,7 +67,9 @@ const DietHandler = ({
           />
         </div>
         <div>
-          <p className="font-roboto-mono">Meal{index + 1} Calories</p>
+          <p className="font-roboto-mono max-[450px]:text-[10px]">
+            Meal{index + 1} Calories
+          </p>
           <input
             type="number"
             value={calories}
@@ -75,7 +79,7 @@ const DietHandler = ({
           />
         </div>
         <div>
-          <p className="font-roboto-mono">Meal Time</p>
+          <p className="font-roboto-mono max-[450px]:text-[10px]">Meal Time</p>
           <input
             type="text"
             value={mealTime}

@@ -32,7 +32,6 @@ export const useExerciseScheduler = ({ day, setShowExercise }: HookProps) => {
     queryKey: [`${day}Exercise`],
     queryFn: async () => {
       const { data } = await exercisesApi.get(`/${day}`);
-      console.log(data);
       if (data !== null) {
         setShowExercise(true);
       }
@@ -96,6 +95,15 @@ export const useExerciseScheduler = ({ day, setShowExercise }: HookProps) => {
       return property;
     });
     const realExercise = { ...values, properties: realProperties };
+    if (realExercise.exercises !== realExercise.properties.length) {
+      toast({
+        title: "Please fill all the properties",
+        status: "warning",
+        isClosable: true,
+        duration: 1200,
+      });
+      return;
+    }
     if (!exercise) {
       createExercise(realExercise);
     }

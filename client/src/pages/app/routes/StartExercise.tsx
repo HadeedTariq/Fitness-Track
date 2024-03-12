@@ -41,7 +41,7 @@ const StartExercise = () => {
     <>
       {!error && data ? (
         <div className="flex items-center justify-center w-full min-h-[100vh]">
-          <h1 className="text-3xl font-bold font-kode-mono flex items-center gap-2">
+          <h1 className="text-3xl text-center max-[820px]:text-[25px] font-bold font-kode-mono flex items-center gap-2">
             You have Completed Today exercise{" "}
             <GrStatusGood size={28} color="green" />
           </h1>

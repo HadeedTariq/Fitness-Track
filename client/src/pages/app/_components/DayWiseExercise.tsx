@@ -6,7 +6,7 @@ type DayWiseExerciseProps = {
 
 const DayWiseExercise = ({ exercise }: DayWiseExerciseProps) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3" key={exercise._id}>
       <h1 className="text-[25px] font-pt-serif text-center  capitalize font-bold">
         {" "}
         {exercise.exerciseName} Day
@@ -32,16 +32,16 @@ const DayWiseExercise = ({ exercise }: DayWiseExerciseProps) => {
             <div
               key={property._id}
               className="flex  items-center flex-wrap  gap-2 justify-between px-3">
-              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[718px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
+              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[740px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
                 Set Name: {property.setName}
               </p>
-              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[718px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
+              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[740px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
                 Total Sets: {property.totalSets}
               </p>
-              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[718px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
+              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[740px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
                 Total Reps: {property.totalReps}
               </p>
-              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[718px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
+              <p className="font-kode-mono text-[16px] font-semibold rounded-md bg-violet-500/90 w-[200px] max-[740px]:w-full max-[718px]:text-center max-[718px]:text-[14px] p-2 text-white">
                 Each Set Rep: {property.eachSetReps}
               </p>
             </div>

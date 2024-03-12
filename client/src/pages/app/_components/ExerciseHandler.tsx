@@ -69,7 +69,9 @@ const ExerciseHandler = ({
       )}
       <div key={index} className="flex items-center gap-2">
         <div>
-          <p className="font-roboto-mono">Set{index + 1} Name</p>
+          <p className="font-roboto-mono max-[880px]:text-[10px]">
+            Set{index + 1} Name
+          </p>
           <input
             type="text"
             value={nameOfSet}
@@ -79,7 +81,9 @@ const ExerciseHandler = ({
           />
         </div>
         <div>
-          <p className="font-roboto-mono">Set{index + 1} Reps</p>
+          <p className="font-roboto-mono max-[880px]:text-[10px]">
+            Set{index + 1} Reps
+          </p>
           <input
             type="number"
             value={totalReps}
@@ -89,7 +93,9 @@ const ExerciseHandler = ({
           />
         </div>
         <div>
-          <p className="font-roboto-mono">Each Set Reps</p>
+          <p className="font-roboto-mono max-[880px]:text-[10px]">
+            Each Set Reps
+          </p>
           <input
             type="number"
             value={eachSetReps}
@@ -99,7 +105,7 @@ const ExerciseHandler = ({
           />
         </div>
         <div>
-          <p className="font-roboto-mono">Total Sets</p>
+          <p className="font-roboto-mono max-[880px]:text-[10px]">Total Sets</p>
           <input
             type="number"
             value={totalSets}

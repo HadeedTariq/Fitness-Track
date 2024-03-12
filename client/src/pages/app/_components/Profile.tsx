@@ -55,7 +55,8 @@ const Profile = ({ profile }: ProfileProps) => {
           className="bg-purple-500 my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">
           Create Post
         </Link>
-        <Link
+        {/* //! Todo */}
+        {/* <Link
           to={"weeklyProgress"}
           className="bg-purple-500 my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">
           Weekly Progress
@@ -64,7 +65,7 @@ const Profile = ({ profile }: ProfileProps) => {
           to={"monthlyProgress"}
           className="bg-purple-500 my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">
           Monthly Progress
-        </Link>
+        </Link> */}
         <Link
           to={"totalProgress"}
           className="bg-purple-500 my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">

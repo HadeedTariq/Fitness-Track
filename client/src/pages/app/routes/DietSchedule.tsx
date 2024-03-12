@@ -22,9 +22,9 @@ const DietSchedule = () => {
 
   if (isLoading) return <h1>Loading...</h1>;
   return (
-    <>
+    <div className="overflow-x-hidden">
       {diet && showDiet ? (
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full mx-1">
           <DietTable diet={diet} />
           <button
             className="bg-violet-500 font-lato p-2 text-[18px] text-white rounded-md w-[200px] font-semibold hover:bg-violet-600/90 transition duration-300 disabled:bg-violet-400"
@@ -34,7 +34,7 @@ const DietSchedule = () => {
         </div>
       ) : (
         <form
-          className="flex flex-col items-center gap-2 p-2 w-full"
+          className="flex flex-col items-center gap-2 p-2 w-full mx-1"
           onSubmit={handleSubmit(onSubmit)}>
           <div className="w-full gap-2 flex">
             <div className="w-full flex flex-col">
@@ -80,7 +80,7 @@ const DietSchedule = () => {
           </button>
         </form>
       )}
-    </>
+    </div>
   );
 };
 

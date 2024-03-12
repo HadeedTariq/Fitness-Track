@@ -4,7 +4,7 @@ const SideBar = () => {
   const { pathname } = useLocation();
   console.log(pathname);
   return (
-    <div className="flex flex-col items-center gap-2 py-3 fixed w-[180px] h-[94.1vh] border-r-2 border-purple-500">
+    <div className="flex flex-col items-center gap-2 py-3 fixed w-[180px] max-[700px]:w-[92%] h-[94.1vh] border-r-2 border-purple-500">
       <Link
         to={"dashboard"}
         className={`text-[18px] font-lato font-[500]  p-2  text-white cursor-pointer w-full ${

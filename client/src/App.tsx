@@ -27,9 +27,9 @@ const App = () => {
           <Route index element={<MyProfile />} />
           <Route path="createPost" element={<CreatePost />} />
           <Route path="allMyPosts" element={<AllMyPosts />} />
-          //!Todo
+          {/* //!Todo */}
           <Route path="weeklyProgress" element={<WeeklyProgress />} />
-          //!Todo
+          {/* //!Todo */}
           <Route path="monthlyProgress" element={<MonthlyProgress />} />
           <Route path="totalProgress" element={<TotalProgress />} />
         </Route>

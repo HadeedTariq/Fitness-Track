@@ -1,3 +1,5 @@
+import { format, getDay } from "date-fns";
+
 const dayFormatter = (day: number) => {
   let d;
   if (day === 0) {
@@ -25,4 +27,10 @@ const dayFormatter = (day: number) => {
   return d;
 };
 
-export { dayFormatter };
+const getDateDay = (date: string) => {
+  const day = getDay(date);
+  const realDate = format(date, "dd-MM-yyyy");
+  const realDay = dayFormatter(day);
+  return [realDay, realDate];
+};
+export { dayFormatter, getDateDay };
