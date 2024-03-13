@@ -19,9 +19,11 @@ const TotalProgress = () => {
 
   return (
     <ResponsiveContainer
-      className={"mx-2 max-[650px]:overflow-x-scroll max-[650px]:w-[110vw] "}
+      className={
+        "mx-2 max-[650px]:overflow-x-scroll max-[650px]:w-[110vw] max-[650px]:h-[130vh]"
+      }
       width="98%"
-      height="100%"
+      height="100.2%"
       maxHeight={1000}
       minWidth={500}>
       <AreaChart

@@ -1,29 +1,29 @@
-import { useMutation } from "@tanstack/react-query";
-import { MdLogout } from "react-icons/md";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { authApi } from "../../../utils/axios";
-import { useToast } from "@chakra-ui/react";
-import { setUser } from "../reducers/appReducer";
+// import { authApi } from "../../../utils/axios";
+// import { useToast } from "@chakra-ui/react";
+// import { setUser } from "../reducers/appReducer";
+// import { useMutation } from "@tanstack/react-query";
+// import { MdLogout } from "react-icons/md";
+// import { useDispatch } from "react-redux";
 
 const UserDropDown = () => {
-  const toast = useToast();
-  const dispatch = useDispatch();
-  const { mutate: logoutUser, isPending } = useMutation({
-    mutationKey: ["logoutUser"],
-    mutationFn: async () => {
-      const { data } = await authApi.post("/logout");
-      toast({
-        title: "User logged out successfully" || data.message,
-        status: "success",
-        isClosable: true,
-      });
-      dispatch(setUser(null));
-    },
-    onSuccess: () => {
-      window.location.reload();
-    },
-  });
+  // const toast = useToast();
+  // const dispatch = useDispatch();
+  // const { mutate: logoutUser, isPending } = useMutation({
+  //   mutationKey: ["logoutUser"],
+  //   mutationFn: async () => {
+  //     const { data } = await authApi.post("/logout");
+  //     toast({
+  //       title: "User logged out successfully" || data.message,
+  //       status: "success",
+  //       isClosable: true,
+  //     });
+  //     dispatch(setUser(null));
+  //   },
+  //   onSuccess: () => {
+  //     window.location.reload();
+  //   },
+  // });
   return (
     <>
       <div className="absolute top-7 transition-opacity duration-700 ease-in-out right-0">
@@ -32,20 +32,20 @@ const UserDropDown = () => {
           role="menu">
           <div className="p-2">
             <Link
-              to={"/profile"}
+              to={"/dashboard"}
               className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
               role="menuitem">
               My Profile
             </Link>
 
-            <button
+            {/* <button
               disabled={isPending}
               className="rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 flex items-center cursor-pointer  gap-2 w-full"
               role="menuitem"
               onClick={() => logoutUser()}>
               <MdLogout size={20} />
               <p>Logout</p>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

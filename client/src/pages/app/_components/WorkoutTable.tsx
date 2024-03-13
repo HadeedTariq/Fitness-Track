@@ -22,35 +22,35 @@ const WorkoutTable = ({ property, index }: WorkoutTableProps) => {
   const { completedExercises } = useApp();
   const dispatch = useDispatch();
   return (
-    <TableContainer mr={"3px"}>
-      <Table variant="simple" border={"2px"} className="rounded-md">
+    <TableContainer mr={"3px"} whiteSpace={"wrap"}>
+      <Table whiteSpace={"wrap"} border={"2px"} className="rounded-md">
         <Thead borderBottom={"2px"}>
           <Tr>
             <Th
               borderRight={"2px"}
               textAlign={"center"}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", sm: "14px", lg: "16px" }}
               fontFamily={"revert-layer"}>
               Set name
             </Th>
             <Th
               borderRight={"2px"}
               textAlign={"center"}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", sm: "14px", lg: "16px" }}
               fontFamily={"revert-layer"}>
               Total Sets
             </Th>
             <Th
               borderRight={"2px"}
               textAlign={"center"}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", sm: "14px", lg: "16px" }}
               fontFamily={"revert-layer"}>
               Total Reps
             </Th>
             <Th
               borderRight={"2px"}
               textAlign={"center"}
-              fontSize={"16px"}
+              fontSize={{ base: "12px", sm: "14px", lg: "16px" }}
               fontFamily={"revert-layer"}>
               Each set Reps
             </Th>

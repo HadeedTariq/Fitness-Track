@@ -1,5 +1,4 @@
 import { Exercise } from "../types/appTypes";
-import { GiBiceps } from "react-icons/gi";
 import WorkoutTable from "./WorkoutTable";
 import { useState } from "react";
 import WorkoutTimer from "./WorkoutTimer";
@@ -18,7 +17,6 @@ const WorkoutHandler = ({ exercise }: WorkoutHandlerProps) => {
       </h3>
       <p className="text-xl font-semibold font-pt-serif  flex items-center gap-1 justify-center">
         We hope you are energetic for your {exercise.exerciseName} exercise{" "}
-        <GiBiceps color="red" size={25} />
       </p>
       {!startExercise && (
         <button
