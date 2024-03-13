@@ -22,7 +22,10 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.FRONT_END_ORIGIN!,
+    origin: [
+      process.env.FRONT_END_ORIGIN!,
+      "https://fitness-track-frontend.vercel.app",
+    ],
     credentials: true,
     exposedHeaders: ["Set-Cookie"],
   })
@@ -33,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get<{}, MessageResponse>("/", (req, res) => {
   res.json({
-    message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
+    message: "Welcome to fitness track backend",
   });
 });
 app.use("/user", userRouter);
