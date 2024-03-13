@@ -157,8 +157,6 @@ router.get(
   asyncHandler(async (req, res, next) => {
     const _id = req.body.user?._id;
 
-    console.log(_id);
-
     const userProfile = await User.aggregate([
       {
         $match: { _id: new mongoose.Types.ObjectId(_id) },

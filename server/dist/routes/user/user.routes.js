@@ -13,6 +13,7 @@ const user_middleware_1 = require("./user.middleware");
 const bmiCalculator_1 = require("../../utils/bmiCalculator");
 const refeshAccessTokenGeneratore_1 = require("../../utils/refeshAccessTokenGeneratore");
 const authChecker_1 = require("../../middlewares/authChecker");
+const mongoose_1 = __importDefault(require("mongoose"));
 const router = (0, express_1.Router)();
 exports.userRouter = router;
 router.post("/sendOtp", user_middleware_1.existedUser, (0, express_async_handler_1.default)(async (req, res, next) => {
@@ -94,13 +95,11 @@ router.post("/login", (0, express_async_handler_1.default)(async (req, res, next
         secure: true,
         httpOnly: false,
         sameSite: "none",
-        maxAge: 24 * 60 * 60 * 15,
     })
         .cookie("accessToken", accessToken, {
         secure: true,
         httpOnly: false,
         sameSite: "none",
-        maxAge: 24 * 60 * 60 * 7,
     })
         .json({ message: "User logged in successfully" });
 }));
@@ -117,5 +116,64 @@ router.post("/logout", authChecker_1.authChecker, (0, express_async_handler_1.de
         .clearCookie("accessToken")
         .status(200)
         .json({ message: "User logged out successfully" });
+}));
+router.get("/profile", authChecker_1.authChecker, (0, express_async_handler_1.default)(async (req, res, next) => {
+    const _id = req.body.user?._id;
+    const userProfile = await user_model_1.User.aggregate([
+        {
+            $match: { _id: new mongoose_1.default.Types.ObjectId(_id) },
+        },
+        // ! lookup for user posts
+        {
+            $lookup: {
+                from: "posts",
+                localField: "_id",
+                foreignField: "user",
+                as: "myPosts",
+                pipeline: [
+                    {
+                        $project: {
+                            title: 1,
+                            description: 1,
+                            comments: 1,
+                            _id: 1,
+                        },
+                    },
+                ],
+            },
+        },
+        // ! lookup for weekly progress
+        {
+            $lookup: {
+                from: "dailyexercises",
+                localField: "_id",
+                foreignField: "user",
+                as: "overAllProgress",
+                pipeline: [
+                    {
+                        $project: {
+                            exerciseTimeInMinutes: 1,
+                            exerciseTimeInSeconds: 1,
+                            exerciseName: 1,
+                            createdAt: 1,
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            $project: {
+                password: 0,
+                refreshToken: 0,
+                _id: 0,
+            },
+        },
+    ]);
+    if (userProfile) {
+        res.status(200).json(userProfile[0]);
+    }
+    else {
+        next({ message: "User not found", status: 404 });
+    }
 }));
 //# sourceMappingURL=user.routes.js.map

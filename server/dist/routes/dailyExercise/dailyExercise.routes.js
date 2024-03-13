@@ -30,7 +30,9 @@ router.post("/done", (0, express_async_handler_1.default)(async (req, res, next)
 router.get("/today", (0, express_async_handler_1.default)(async (req, res, next) => {
     const exercise = await dailyExercise_model_1.DailyExercise.findOne({
         user: req.body.user._id,
-    }).sort({ createdAt: -1 });
+    })
+        .sort({ createdAt: -1 })
+        .select("-exerciseTimeInMinutes -exerciseTimeInSeconds");
     res.status(200).json(exercise);
 }));
 //# sourceMappingURL=dailyExercise.routes.js.map

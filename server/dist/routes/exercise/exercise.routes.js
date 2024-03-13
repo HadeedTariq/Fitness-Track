@@ -57,7 +57,6 @@ router.put("/update", authChecker_1.authChecker, (0, express_async_handler_1.def
 }));
 router.get("/:day", authChecker_1.authChecker, (0, express_async_handler_1.default)(async (req, res, next) => {
     const { day } = req.params;
-    console.log(day);
     if (!day) {
         return next({ message: "Day is required", status: 404 });
     }

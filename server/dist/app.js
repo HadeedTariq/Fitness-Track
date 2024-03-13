@@ -37,6 +37,7 @@ const user_routes_1 = require("./routes/user/user.routes");
 const dailyExercise_routes_1 = require("./routes/dailyExercise/dailyExercise.routes");
 const exercise_routes_1 = require("./routes/exercise/exercise.routes");
 const diet_routes_1 = require("./routes/diet/diet.routes");
+const post_routes_1 = require("./routes/posts/post.routes");
 require("dotenv").config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
@@ -44,7 +45,10 @@ const port = process.env.PORT || 3001;
 app.use((0, morgan_1.default)("dev"));
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)({
-    origin: process.env.FRONT_END_ORIGIN,
+    origin: [
+        process.env.FRONT_END_ORIGIN,
+        "https://fitness-track-frontend.vercel.app",
+    ],
     credentials: true,
     exposedHeaders: ["Set-Cookie"],
 }));
@@ -53,13 +57,14 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
     res.json({
-        message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
+        message: "Welcome to fitness track backend",
     });
 });
 app.use("/user", user_routes_1.userRouter);
 app.use("/dailyExercise", dailyExercise_routes_1.dailyExerciseRouter);
 app.use("/exercise", exercise_routes_1.exerciseRouter);
 app.use("/diet", diet_routes_1.dietRouter);
+app.use("/post", post_routes_1.postRouter);
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 });
