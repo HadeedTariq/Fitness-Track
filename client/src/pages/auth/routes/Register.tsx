@@ -10,11 +10,9 @@ const Register = () => {
   } = useRegisterForm();
 
   const createAccount = (user: RegisterValidator) => {
-    console.log(user);
     user.age = user.age + " " + "years old";
     user.height = user.height + " " + "ft";
     user.weight = user.weight + " " + "kg";
-    console.log(user);
     registerAccount(user);
   };
   return (

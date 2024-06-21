@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { UserProfile } from "../types/appTypes";
 import Post from "./Post";
+import { Button } from "@/components/ui/button";
 
 type ProfileProps = {
   profile: UserProfile;
@@ -50,10 +51,8 @@ const Profile = ({ profile }: ProfileProps) => {
         </div>
       </div>
       <div className="flex items-center gap-2 ">
-        <Link
-          to={"createPost"}
-          className="bg-purple-500 my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">
-          Create Post
+        <Link to={"createPost"}>
+          <Button variant={"real"}>Create Post</Button>
         </Link>
         {/* //! Todo */}
         {/* <Link
@@ -66,10 +65,8 @@ const Profile = ({ profile }: ProfileProps) => {
           className="bg-purple-500 my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">
           Monthly Progress
         </Link> */}
-        <Link
-          to={"totalProgress"}
-          className="bg-purple-500 my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">
-          Total Progress
+        <Link to={"totalProgress"}>
+          <Button variant={"real"}>Total Progress</Button>
         </Link>
       </div>
       <div className="flex items-center flex-wrap w-full justify-center gap-y-2 gap-x-4 p-2">
@@ -79,8 +76,8 @@ const Profile = ({ profile }: ProfileProps) => {
       </div>
       <Link
         to={"allMyPosts"}
-        className="bg-purple-500 mx-auto my-2 py-2 px-6 rounded-md font-pt-serif text-white text-[18px] w-fit">
-        See all
+        className="mx-auto my-2 py-2 px-6 rounded-md font-pt-serif  text-[18px] w-fit">
+        <Button variant={"real"}>See all</Button>
       </Link>
     </div>
   );

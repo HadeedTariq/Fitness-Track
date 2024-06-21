@@ -3,13 +3,17 @@ import UserDropDown from "./UserDropDown";
 import { useApp } from "../hooks/useApp";
 import { useDispatch } from "react-redux";
 import { setDropDown } from "../reducers/appReducer";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const dispatch = useDispatch();
   const { dropdown } = useApp();
+  const navigate = useNavigate();
   return (
     <div className="w-full fixed h-[50px] flex justify-between items-center py-2 px-4 shadow-md bg-gray-300/90 z-50">
-      <h2 className="font-kode-mono text-[23px] font-semibold">
+      <h2
+        className="font-kode-mono text-[23px] font-semibold cursor-pointer"
+        onClick={() => navigate("/")}>
         Fitness-Track
       </h2>
       <div className="flex flex-col relative">

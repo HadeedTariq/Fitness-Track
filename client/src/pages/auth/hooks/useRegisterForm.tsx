@@ -7,12 +7,11 @@ import { useMutation } from "@tanstack/react-query";
 import { authApi } from "../../../utils/axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../reducers/authReducer";
-import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { toast } from "@/components/ui/use-toast";
 
 export const useRegisterForm = () => {
-  const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const form = useForm<RegisterValidator>({
@@ -28,8 +27,6 @@ export const useRegisterForm = () => {
     onSuccess: () => {
       toast({
         title: "Please check your email to get otp",
-        status: "success",
-        isClosable: true,
       });
       form.reset();
       setTimeout(() => {

@@ -4,7 +4,6 @@ export const mailSender = async (
   title: string,
   body: string
 ) => {
-  console.log(email, title, body);
   try {
     let transporter = nodeMailer.createTransport({
       service: "gmail",
