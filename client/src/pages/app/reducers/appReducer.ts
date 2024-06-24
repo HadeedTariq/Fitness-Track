@@ -4,7 +4,11 @@ import { Properties } from "../validators/exerciseValidator";
 import { DietMealValidator } from "../validators/diet.validator";
 import { UserProfile } from "../types/appTypes";
 
+export type Theme = "dark" | "light" | "system";
+
 export type AppState = {
+  theme: Theme;
+  storageKey: string;
   user: User | null;
   dropdown: boolean;
   exerciseProperties: Properties;
@@ -19,6 +23,8 @@ const completedExercises = JSON.parse(
 );
 
 const initialState: AppState = {
+  theme: (localStorage.getItem("vite-ui-theme") as Theme) || "system",
+  storageKey: "vite-ui-theme",
   user: null,
   dropdown: false,
   exerciseProperties: [],
@@ -91,6 +97,10 @@ const appReducer = createSlice({
     ) => {
       state.myOverAllProgress = payload;
     },
+    setTheme: (state, { payload }: { payload: Theme }) => {
+      localStorage.setItem(state.storageKey, payload);
+      state.theme = payload;
+    },
   },
 });
 
@@ -106,4 +116,5 @@ export const {
   setDietPropertiesEmpty,
   setMyPosts,
   setMyOverAllProgress,
+  setTheme,
 } = appReducer.actions;

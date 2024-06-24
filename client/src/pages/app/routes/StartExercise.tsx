@@ -6,10 +6,14 @@ import { dailyExerciseApi, exercisesApi } from "../../../utils/axios";
 import { Exercise } from "../types/appTypes";
 import WorkoutHandler from "../_components/WorkoutHandler";
 import ExerciseNotCreatedYet from "../_components/ExerciseNotCreatedYet";
+import { useMemo } from "react";
+import Loader from "@/components/ui/Loader";
 
 const StartExercise = () => {
   const date = new Date().getDay();
-  const day = dayFormatter(date);
+  const day = useMemo(() => {
+    return dayFormatter(date);
+  }, []);
 
   const { data, error } = useQuery({
     queryKey: ["dailyExercise"],
@@ -36,7 +40,7 @@ const StartExercise = () => {
       }
     },
   });
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
   return (
     <>
       {!error && data ? (

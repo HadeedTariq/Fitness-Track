@@ -23,9 +23,6 @@ export const useLogin = () => {
         title: "User logged in successfully",
       });
       form.reset();
-      setTimeout(() => {
-        navigate("/");
-      }, 1200);
     },
     onError: (err: ErrResponse) => {
       toast({

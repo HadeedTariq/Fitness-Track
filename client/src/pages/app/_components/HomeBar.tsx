@@ -7,10 +7,11 @@ import { setUser } from "../reducers/appReducer";
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
 import SideBarDrawer from "./SideBarDrawer";
+import Loader from "@/components/ui/Loader";
 
 const HomeBar = () => {
   const dispatch = useDispatch();
-  const { data: user } = useQuery({
+  const { data: user, isLoading } = useQuery({
     queryKey: ["getUserInfo"],
     queryFn: async () => {
       const { data } = await authApi.get("/");
@@ -18,6 +19,8 @@ const HomeBar = () => {
       return data.userInfo as User;
     },
   });
+
+  if (isLoading) return <Loader />;
 
   if (!user?.email) {
     return <Navigate to={"/auth/register"} />;

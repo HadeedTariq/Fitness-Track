@@ -7,12 +7,11 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { postApi } from "../../../utils/axios";
-import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 
 const CreatePost = () => {
   const navigate = useNavigate();
-  const toast = useToast();
   const queryClient = useQueryClient();
   const { register, formState, reset, handleSubmit } = useForm<PostValidator>({
     resolver: zodResolver(postValidator),
@@ -24,8 +23,6 @@ const CreatePost = () => {
       const { data } = await postApi.post("/create", post);
       toast({
         title: "Post created successfully" || data.message,
-        isClosable: true,
-        status: "success",
       });
     },
     onSuccess: () => {

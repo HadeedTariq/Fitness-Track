@@ -10,9 +10,9 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { exercisesApi } from "../../../utils/axios";
-import { useToast } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { Exercise } from "../types/appTypes";
+import { toast } from "@/components/ui/use-toast";
 
 type HookProps = {
   day:
@@ -37,8 +37,8 @@ export const useExerciseScheduler = ({ day, setShowExercise }: HookProps) => {
       }
       return data as Exercise;
     },
+    refetchOnWindowFocus: false,
   });
-  const toast = useToast();
   const { register, setValue, formState, reset, watch, handleSubmit } =
     useForm<ExerciseValidator>({
       resolver: zodResolver(exerciseValidator),
@@ -58,8 +58,6 @@ export const useExerciseScheduler = ({ day, setShowExercise }: HookProps) => {
       const { data } = await exercisesApi.post("/create", values);
       toast({
         title: "Exercise created successfully" || data.message,
-        status: "success",
-        isClosable: true,
         duration: 1000,
       });
       reset();
@@ -71,14 +69,13 @@ export const useExerciseScheduler = ({ day, setShowExercise }: HookProps) => {
       const properties = values.properties.filter(
         (_, index) => index + 1 <= values.exercises
       );
+
       const { data } = await exercisesApi.put("/update", {
         ...values,
         properties,
       });
       toast({
         title: "Exercise updated successfully" || data.message,
-        status: "success",
-        isClosable: true,
         duration: 1000,
       });
       reset();
@@ -94,12 +91,12 @@ export const useExerciseScheduler = ({ day, setShowExercise }: HookProps) => {
       delete property._id;
       return property;
     });
+
     const realExercise = { ...values, properties: realProperties };
     if (realExercise.exercises !== realExercise.properties.length) {
       toast({
         title: "Please fill all the properties",
-        status: "warning",
-        isClosable: true,
+        variant: "destructive",
         duration: 1200,
       });
       return;

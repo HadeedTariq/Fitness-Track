@@ -11,15 +11,14 @@ import { dietApi } from "../../../utils/axios";
 import { useEffect } from "react";
 import { setDietPropertiesEmpty } from "../reducers/appReducer";
 import { useDispatch } from "react-redux";
-import { useToast } from "@chakra-ui/react";
 import { ErrResponse } from "../../../types/general";
+import { toast } from "@/components/ui/use-toast";
 
 export const useDietSchedule = ({
   setShowDiet,
 }: {
   setShowDiet: (val: boolean) => void;
 }) => {
-  const toast = useToast();
   const dispatch = useDispatch();
 
   const queryClient = useQueryClient();
@@ -51,8 +50,6 @@ export const useDietSchedule = ({
       const { data } = await dietApi.post("/create", diet);
       toast({
         title: "Diet Created successfully" || data.message,
-        isClosable: true,
-        status: "success",
       });
     },
     onSuccess: () => {
@@ -65,8 +62,7 @@ export const useDietSchedule = ({
     onError: (err: ErrResponse) => {
       toast({
         title: err.response.data.message || "Something went wrong",
-        status: "error",
-        isClosable: true,
+        variant: "destructive",
       });
     },
   });
@@ -77,8 +73,6 @@ export const useDietSchedule = ({
       const { data } = await dietApi.put("/update", diet);
       toast({
         title: "Diet Updated successfully" || data.message,
-        isClosable: true,
-        status: "success",
       });
     },
     onSuccess: () => {
@@ -91,8 +85,7 @@ export const useDietSchedule = ({
     onError: (err: ErrResponse) => {
       toast({
         title: err.response.data.message || "Something went wrong",
-        status: "error",
-        isClosable: true,
+        variant: "destructive",
       });
     },
   });

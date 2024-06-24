@@ -7,8 +7,8 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { dailyExerciseApi } from "../../../utils/axios";
-import { useToast } from "@chakra-ui/react";
 import { ErrResponse } from "../../../types/general";
+import { toast } from "@/components/ui/use-toast";
 
 type WorkoutTimerProps = {
   exercise: Exercise;
@@ -22,7 +22,7 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
     minutes: initialTime?.minutes || 0,
     seconds: initialTime?.seconds || 0,
   });
-  const intervalRef = useRef<number>();
+  const intervalRef = useRef<any>();
 
   const startTimer = () => {
     if (!timerOn) {
@@ -55,7 +55,6 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
     localStorage.removeItem("workoutTime");
   };
 
-  const toast = useToast();
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -68,8 +67,6 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
       });
       toast({
         title: "Exercise Completed successfully" || data.message,
-        status: "success",
-        isClosable: true,
       });
     },
     onSuccess: () => {
@@ -83,8 +80,7 @@ const WorkoutTimer = ({ exercise }: WorkoutTimerProps) => {
     onError: (err: ErrResponse) => {
       toast({
         title: err.response.data.message || "Time must be more than 1 minute",
-        status: "error",
-        isClosable: true,
+        variant: "destructive",
       });
     },
   });

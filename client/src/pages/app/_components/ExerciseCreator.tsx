@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { setExercisePropertiesEmpty } from "../reducers/appReducer";
 import DayWiseExercise from "./DayWiseExercise";
 import { useExerciseScheduler } from "../hooks/useExerciseScheuler";
+import Loader from "@/components/ui/Loader";
+import { Button } from "@/components/ui/button";
 
 type ExerciseCreatorProps = {
   day:
@@ -35,17 +37,18 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
   useEffect(() => {
     dispatch(setExercisePropertiesEmpty());
   }, []);
-  if (isLoading) return <h2>Loading...</h2>;
+  if (isLoading) return <Loader className="h-[300px]" />;
   return (
     <>
       {exercise && showExercise ? (
         <>
           <DayWiseExercise exercise={exercise} />
-          <button
-            className="text-[20px] w-full my-2 font-lato p-[4px] bg-purple-500 rounded-md text-white mx-3"
+          <Button
+            className="text-[20px] w-full my-2 font-lato"
+            variant={"real"}
             onClick={() => setShowExercise(false)}>
             Update
-          </button>
+          </Button>
         </>
       ) : (
         <form
@@ -117,12 +120,13 @@ const ExerciseCreator = ({ day }: ExerciseCreatorProps) => {
               </div>
             </div>
           </div>
-          <button
+          <Button
             type="submit"
             disabled={formState.disabled || isPending || isUpdationPending}
-            className="bg-violet-500 font-lato p-2 text-[18px] text-white rounded-md w-full font-semibold hover:bg-violet-600/90 transition duration-300 disabled:bg-violet-400">
+            variant={"real"}
+            className=" font-lato ">
             {exercise ? "Update" : "Create"}
-          </button>
+          </Button>
         </form>
       )}
     </>

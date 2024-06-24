@@ -2,6 +2,14 @@ import { Exercise } from "../types/appTypes";
 import WorkoutTable from "./WorkoutTable";
 import { useState } from "react";
 import WorkoutTimer from "./WorkoutTimer";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type WorkoutHandlerProps = {
   exercise: Exercise;
@@ -26,18 +34,26 @@ const WorkoutHandler = ({ exercise }: WorkoutHandlerProps) => {
         </button>
       )}
       {startExercise && (
-        <div className="flex flex-col gap-2">
-          <h2 className="text-2xl font-semibold font-roboto-mono ">
-            Today's Schedule
-          </h2>
-          {exercise.setProperties?.map((property, index) => (
-            <WorkoutTable
-              property={property}
-              index={index}
-              key={property._id}
-            />
-          ))}
-        </div>
+        <Table>
+          <TableCaption>Today's Workout Schedule</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Set name</TableHead>
+              <TableHead>Total Sets</TableHead>
+              <TableHead>Total Reps</TableHead>
+              <TableHead>Each set Reps</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {exercise.setProperties?.map((property, index) => (
+              <WorkoutTable
+                property={property}
+                index={index}
+                key={property._id}
+              />
+            ))}
+          </TableBody>
+        </Table>
       )}
       {startExercise && (
         <div className="flex flex-col gap-3">
