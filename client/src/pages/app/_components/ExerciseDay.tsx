@@ -1,4 +1,4 @@
-import ExerciseCreator from "./ExerciseCreator";
+import ExerciseCreator, { ExerciseCreatorProps } from "./ExerciseCreator";
 import {
   Accordion,
   AccordionContent,
@@ -23,7 +23,10 @@ const ExerciseDay = () => {
         <AccordionItem value={day}>
           <AccordionTrigger>{day}</AccordionTrigger>
           <AccordionContent className="px-1 py-3">
-            <ExerciseCreator key={day} day={day} />
+            <ExerciseCreator
+              key={day}
+              day={day as ExerciseCreatorProps["day"]}
+            />
           </AccordionContent>
         </AccordionItem>
       ))}

@@ -7,7 +7,7 @@ import { useExerciseScheduler } from "../hooks/useExerciseScheuler";
 import Loader from "@/components/ui/Loader";
 import { Button } from "@/components/ui/button";
 
-type ExerciseCreatorProps = {
+export type ExerciseCreatorProps = {
   day:
     | "Monday"
     | "Tuesday"

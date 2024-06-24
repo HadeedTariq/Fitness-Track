@@ -3,12 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginValidator, loginValidator } from "../validators/user.validator";
 import { useMutation } from "@tanstack/react-query";
 import { authApi } from "../../../utils/axios";
-import { useNavigate } from "react-router-dom";
 import { ErrResponse } from "../../../types/general";
 import { toast } from "@/components/ui/use-toast";
 
 export const useLogin = () => {
-  const navigate = useNavigate();
   const form = useForm<LoginValidator>({
     resolver: zodResolver(loginValidator),
   });

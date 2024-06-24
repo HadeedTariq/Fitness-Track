@@ -5,7 +5,6 @@ import { useMutation } from "@tanstack/react-query";
 import { MdLogout } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { toast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -13,7 +12,7 @@ import {
 
 const UserDropDown = () => {
   const dispatch = useDispatch();
-  const { mutate: logoutUser, isPending } = useMutation({
+  const { mutate: logoutUser } = useMutation({
     mutationKey: ["logoutUser"],
     mutationFn: async () => {
       const { data } = await authApi.post("/logout");
