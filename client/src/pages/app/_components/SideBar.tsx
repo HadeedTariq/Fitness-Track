@@ -11,17 +11,9 @@ const SideBar = () => {
           pathname.includes("dashboard")
             ? "bg-violet-500 scale-105"
             : "bg-purple-500"
-        }`}>
+        }`}
+      >
         My Profile
-      </Link>
-      <Link
-        to={"startExercise"}
-        className={`text-[18px] font-lato font-[500]  p-2  text-white cursor-pointer w-full ${
-          pathname === "/startExercise"
-            ? "bg-violet-500 scale-105"
-            : "bg-purple-500"
-        }`}>
-        Start Exercise
       </Link>
       <Link
         to={"exerciseSchedule"}
@@ -29,17 +21,9 @@ const SideBar = () => {
           pathname === "/exerciseSchedule"
             ? "bg-violet-500 scale-105"
             : "bg-purple-500"
-        }`}>
+        }`}
+      >
         Exercise Schedule
-      </Link>
-      <Link
-        to={"dietSchedule"}
-        className={`text-[18px] font-lato font-[500]  p-2  text-white cursor-pointer w-full ${
-          pathname === "/dietSchedule"
-            ? "bg-violet-500 scale-105"
-            : "bg-purple-500"
-        }`}>
-        Diet Schedule
       </Link>
     </div>
   );

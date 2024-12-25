@@ -106,7 +106,7 @@ router.post(
     }
 
     const { refreshToken, accessToken } = await generateAccessAndRefereshTokens(
-      user._id
+      user._id as any
     );
 
     res
@@ -133,6 +133,10 @@ router.get(
     const userInfo = await User.findById(user._id).select(
       "-password -refreshToken"
     );
+    if(userInfo){
+      userInfo.bmi = userInfo.bmi.split(".")[0];
+      
+    }
     res
       .status(200)
       .json({ userInfo, message: "User info fetched successfully" });
@@ -208,6 +212,8 @@ router.get(
       },
     ]);
     if (userProfile) {
+      userProfile[0].bmi = userProfile[0].bmi.split(".")[0];
+
       res.status(200).json(userProfile[0]);
     } else {
       next({ message: "User not found", status: 404 });

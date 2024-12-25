@@ -22,7 +22,7 @@ const SideBarDrawer = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Fitness-Track</DrawerHeader>
+          <DrawerHeader>FitQuest</DrawerHeader>
 
           <DrawerBody className="relative" onClick={onClose}>
             <SideBar />

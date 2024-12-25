@@ -13,12 +13,10 @@ export const authChecker = (
     return next({ message: "Token is required", status: 404 });
   }
 
-  const isCorrectAccessToken = jwt.verify(
-    token,
-    process.env.ACCESS_TOKEN_SECRET!
-  );
-  if (isCorrectAccessToken) {
-    req.body.user = isCorrectAccessToken;
+  const user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
+  if (user) {
+    req.body.user = user;
+
     next();
   } else {
     next({ message: "Invalid Tokens", status: 404 });

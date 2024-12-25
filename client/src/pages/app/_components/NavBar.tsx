@@ -10,7 +10,7 @@ const NavBar = () => {
   return (
     <div className="w-full fixed h-[50px] flex justify-between items-center py-2 px-4 shadow-md bg-gray-300/90 z-50">
       <h2 className="font-kode-mono text-[23px] font-semibold">
-        Fitness-Track
+        FitQuest
       </h2>
       <div className="flex flex-col relative">
         <FaCircleUser

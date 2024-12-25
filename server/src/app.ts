@@ -11,6 +11,7 @@ import { dailyExerciseRouter } from "./routes/dailyExercise/dailyExercise.routes
 import { exerciseRouter } from "./routes/exercise/exercise.routes";
 import { dietRouter } from "./routes/diet/diet.routes";
 import { postRouter } from "./routes/posts/post.routes";
+import { planRouter } from "./routes/plan/plan.routes";
 
 require("dotenv").config();
 
@@ -44,6 +45,7 @@ app.use("/dailyExercise", dailyExerciseRouter);
 app.use("/exercise", exerciseRouter);
 app.use("/diet", dietRouter);
 app.use("/post", postRouter);
+app.use("/plan", planRouter);
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
 });

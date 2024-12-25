@@ -4,6 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Provider as Redux } from "react-redux";
 import { store } from "./store/store";
 import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "./components/ui/toaster";
 
 const client = new QueryClient();
 
@@ -17,6 +18,7 @@ const Provider = ({ children }: ProviderProps) => {
       <ChakraProvider>
         <Redux store={store}>
           <BrowserRouter>{children}</BrowserRouter>
+          <Toaster />
         </Redux>
       </ChakraProvider>
     </QueryClientProvider>
