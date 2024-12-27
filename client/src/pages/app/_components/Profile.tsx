@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, Mail, Ruler, Scale, User } from "lucide-react";
 import { UserProfile } from "../types/appTypes";
 import { ExercisePlanCreator } from "./ExercisePlanCreator";
+import { DietPlanCreator } from "./DietPlanCreator";
 
 export default function ProfileDashboard({
   profile,
@@ -64,13 +65,13 @@ export default function ProfileDashboard({
               </Badge>
             </div>
             <ExercisePlanCreator />
+            <DietPlanCreator />
           </div>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="posts">Posts</TabsTrigger>
               <TabsTrigger value="progress">Progress</TabsTrigger>
             </TabsList>
             <TabsContent value="overview">
@@ -109,22 +110,7 @@ export default function ProfileDashboard({
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="posts">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your Posts</CardTitle>
-                  <CardDescription>
-                    You haven't made any posts yet.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-center text-muted-foreground">
-                    Start sharing your fitness journey by creating your first
-                    post!
-                  </p>
-                </CardContent>
-              </Card>
-            </TabsContent>
+
             <TabsContent value="progress">
               <Card>
                 <CardHeader>

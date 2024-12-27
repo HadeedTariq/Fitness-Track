@@ -15,6 +15,7 @@ const AuthProtector = () => {
       return data.userInfo as User;
     },
   });
+
   if (user) return <Navigate to={"/"} />;
   return (
     <>

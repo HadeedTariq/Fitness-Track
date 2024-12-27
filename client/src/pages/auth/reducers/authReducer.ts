@@ -13,7 +13,7 @@ const authReducer = createSlice({
   name: "authReducer",
   initialState,
   reducers: {
-    setUser: (state, { payload }: { payload: RegisterValidator }) => {
+    setUser: (state, { payload }: { payload: RegisterValidator | null }) => {
       state.user = payload;
     },
   },

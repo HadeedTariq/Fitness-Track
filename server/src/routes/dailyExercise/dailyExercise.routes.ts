@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authChecker } from "../../middlewares/authChecker";
 import asyncHandler from "express-async-handler";
 import { DailyExercise } from "./dailyExercise.model";
+import { ExercisePlan } from "../plan/exercise.model";
 const router = Router();
 
 router.use(authChecker);
@@ -25,18 +26,6 @@ router.post(
     if (userTodayExercise) {
       res.status(201).json({ message: "You exercise today successfully" });
     }
-  })
-);
-
-router.get(
-  "/today",
-  asyncHandler(async (req, res, next) => {
-    const exercise = await DailyExercise.findOne({
-      user: req.body.user._id,
-    })
-      .sort({ createdAt: -1 })
-      .select("-exerciseTimeInMinutes -exerciseTimeInSeconds");
-    res.status(200).json(exercise);
   })
 );
 

@@ -133,9 +133,8 @@ router.get(
     const userInfo = await User.findById(user._id).select(
       "-password -refreshToken"
     );
-    if(userInfo){
+    if (userInfo) {
       userInfo.bmi = userInfo.bmi.split(".")[0];
-      
     }
     res
       .status(200)
@@ -145,13 +144,14 @@ router.get(
 
 router.post(
   "/logout",
-  authChecker,
+  // authChecker,
   asyncHandler(async (req, res) => {
     res
       .clearCookie("refreshToken")
       .clearCookie("accessToken")
       .status(200)
       .json({ message: "User logged out successfully" });
+    return;
   })
 );
 

@@ -6,6 +6,7 @@ const ExerciseSchema = new mongoose.Schema({
   reps: { type: mongoose.Schema.Types.Mixed, required: true },
   rest: { type: Number, required: true },
   description: { type: String, required: true },
+  day: { type: String, required: true },
 });
 
 const CardioSchema = new mongoose.Schema({

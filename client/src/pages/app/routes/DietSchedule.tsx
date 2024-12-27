@@ -1,85 +1,151 @@
-import DietHandler from "../_components/DietHandler";
-import { useState } from "react";
-import DietTable from "../_components/DietTable";
-import { useDietSchedule } from "../hooks/useDietSchedule";
+import { ArrowRightIcon, DropletIcon } from "lucide-react";
 
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { planApi } from "@/utils/axios";
+import { NoPlanAvailable } from "../_components/NoPlanAvailable";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+// Meal type
+interface Meal {
+  name: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+  description: string;
+}
+
+interface Hydration {
+  description: string;
+  dailyGoal: number;
+  tips: string[];
+}
+
+interface DietPlan {
+  planName: string;
+  description: string;
+  dailyCalories: number;
+  meals: Meal[];
+  hydration: Hydration;
+  motivationalAdvice: string[];
+}
 const DietSchedule = () => {
-  const [showDiet, setShowDiet] = useState(true);
+  const queryClient = useQueryClient();
 
-  const {
-    mutations: { isDietCreationPending, isDietUpdationPending },
-    form: {
-      register,
-      formState,
-      watch,
-      handleSubmit,
-      setValue,
-      totalMeals,
-      onSubmit,
+  const { data: dietPlan, isLoading } = useQuery({
+    queryKey: ["dietPlan"],
+    queryFn: async () => {
+      const { data } = await planApi.get("/diet");
+
+      if (data.message) {
+        return null;
+      }
+
+      return data as DietPlan;
     },
-    query: { diet, isLoading },
-  } = useDietSchedule({ setShowDiet });
+  });
 
-  if (isLoading) return <h1>Loading...</h1>;
+  const { mutate: deleteDietPlan, isPending } = useMutation({
+    mutationKey: ["deleteDietPlan"],
+    mutationFn: async () => {
+      const { data } = await planApi.delete("/delete-plan?planType=diet");
+      return data;
+    },
+    onError: (err: any) => {
+      toast({
+        title: err.response.data.message || "Something went wrong",
+        variant: "destructive",
+        duration: 2000,
+      });
+    },
+    onSuccess: (data) => {
+      toast({
+        title: data.message || "Diet plan delete successfully",
+        duration: 2000,
+      });
+      queryClient.invalidateQueries(["dietPlan"] as InvalidateQueryFilters);
+    },
+  });
+  if (isLoading) return <div>Loading...</div>;
+  if (!dietPlan) return <NoPlanAvailable />;
+
   return (
-    <div className="overflow-x-hidden">
-      {diet && showDiet ? (
-        <div className="flex flex-col items-center w-full mx-1">
-          <DietTable diet={diet} />
-          <button
-            className="bg-violet-500 font-lato p-2 text-[18px] text-white rounded-md w-[200px] font-semibold hover:bg-violet-600/90 transition duration-300 disabled:bg-violet-400"
-            onClick={() => setShowDiet(false)}>
-            Update Diet
-          </button>
-        </div>
-      ) : (
-        <form
-          className="flex flex-col items-center gap-2 p-2 w-full mx-1"
-          onSubmit={handleSubmit(onSubmit)}>
-          <div className="w-full gap-2 flex">
-            <div className="w-full flex flex-col">
-              <p>Total Meals</p>
-              <input
-                value={watch("totalMeals")}
-                onChange={(e) =>
-                  setValue("totalMeals", parseInt(e.target.value))
-                }
-                type="number"
-                placeholder="Total Meals"
-                className="border-2 border-pink-300 outline-pink-600 w-full p-1 rounded-md"
-              />
-              {formState.errors.totalMeals && (
-                <p className="text-red-500 font-ubuntu text-[12px]">
-                  {formState.errors.totalMeals.message}
-                </p>
-              )}
-              <div className="flex flex-col gap-2 items-center mt-2">
-                {Array.from({ length: totalMeals })?.map((_, index) => (
-                  <DietHandler
-                    meals={diet?.mealProperties[index]}
-                    key={index}
-                    index={index}
-                    register={register}
-                    setValue={setValue}
-                    formState={formState}
-                    watch={watch}
-                  />
-                ))}
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center text-green-800 mb-8">
+          {dietPlan.planName}
+        </h1>
+        <p className="text-lg text-gray-700 mb-8 text-center">
+          {dietPlan.description}
+        </p>
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+          <h2 className="text-2xl font-semibold text-green-700 mb-4">
+            Daily Meal Schedule
+          </h2>
+          <p className="text-xl font-medium text-gray-800 mb-6">
+            Target Daily Calories: {dietPlan.dailyCalories}
+          </p>
+          <div className="space-y-6">
+            {dietPlan.meals.map((meal, index) => (
+              <div
+                key={index}
+                className="border-l-4 border-green-500 pl-4 py-2"
+              >
+                <h3 className="text-xl font-semibold text-green-600">
+                  {meal.name}
+                </h3>
+                <p className="text-gray-700 mt-2">{meal.description}</p>
+                <div className="mt-2 flex space-x-4 text-sm text-gray-600">
+                  <span>Calories: {meal.calories}</span>
+                  <span>Protein: {meal.protein}g</span>
+                  <span>Carbs: {meal.carbs}g</span>
+                  <span>Fats: {meal.fats}g</span>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-          <button
-            type="submit"
-            disabled={
-              formState.disabled ||
-              isDietCreationPending ||
-              isDietUpdationPending
-            }
-            className="bg-violet-500 font-lato p-2 text-[18px] text-white rounded-md w-full font-semibold hover:bg-violet-600/90 transition duration-300 disabled:bg-violet-400">
-            {!diet ? "Create" : "Update"}
-          </button>
-        </form>
-      )}
+        </div>
+        <div className="bg-blue-50 rounded-lg shadow-lg p-6 mb-8">
+          <h2 className="text-2xl font-semibold text-blue-700 mb-4 flex items-center">
+            <DropletIcon className="mr-2" /> Hydration
+          </h2>
+          <p className="text-gray-700 mb-2">{dietPlan.hydration.description}</p>
+          <p className="text-lg font-medium text-blue-800 mb-4">
+            Daily Goal: {dietPlan.hydration.dailyGoal} liters
+          </p>
+          <ul className="list-disc list-inside text-gray-700 space-y-2">
+            {dietPlan.hydration.tips.map((tip, index) => (
+              <li key={index}>{tip}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-yellow-50 rounded-lg shadow-lg p-6">
+          <h2 className="text-2xl font-semibold text-yellow-700 mb-4">
+            Motivational Advice
+          </h2>
+          <ul className="space-y-3">
+            {dietPlan.motivationalAdvice.map((advice, index) => (
+              <li key={index} className="flex items-start">
+                <ArrowRightIcon className="h-6 w-6 text-yellow-500 mr-2 flex-shrink-0" />
+                <span className="text-gray-700">{advice}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Button
+          variant={"destructive"}
+          disabled={isPending}
+          className="m-4"
+          onClick={() => deleteDietPlan()}
+        >
+          Delete Plan
+        </Button>
+      </div>
     </div>
   );
 };
