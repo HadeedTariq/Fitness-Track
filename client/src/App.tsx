@@ -3,7 +3,7 @@ import Register from "./pages/auth/routes/Register";
 import OtpHandler from "./pages/auth/routes/OtpHandler";
 import Login from "./pages/auth/routes/Login";
 import HomeBar from "./pages/app/_components/HomeBar";
-import HomePage from "./pages/app/routes/HomePage";
+
 import AuthProtector from "./pages/auth/_components/AuthProtector";
 
 import DietSchedule from "./pages/app/routes/DietSchedule";
@@ -15,8 +15,6 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<HomeBar />}>
-        <Route index element={<HomePage />} />
-
         <Route path="exerciseSchedule" element={<ExerciseSchedule />} />
         <Route path="dietSchedule" element={<DietSchedule />} />
         <Route path="dailyExercise" element={<DailyExercisePage />} />

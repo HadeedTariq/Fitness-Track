@@ -8,10 +8,13 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const { dropdown } = useApp();
   return (
-    <div className="w-full fixed h-[50px] flex justify-between items-center py-2 px-4 shadow-md bg-gray-300/90 z-50">
-      <h2 className="font-kode-mono text-[23px] font-semibold">
-        FitQuest
-      </h2>
+    <div className="w-full fixed h-[80px] flex justify-between items-center py-2 px-4 shadow-md bg-[white] z-50">
+      <img
+        src={"/Fitquest.png"}
+        alt={"Main Logo"}
+        className={`h-20 w-h-20 object-contain `}
+      />
+
       <div className="flex flex-col relative">
         <FaCircleUser
           size={35}

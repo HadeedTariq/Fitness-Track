@@ -53,7 +53,7 @@ export function ExercisePlanCreator() {
       <DialogTrigger asChild>
         <Button
           variant="default"
-          className="mx-2 my-6 bg-red-500 hover:bg-red-600"
+          className="mx-2 my-6 bg-green-500 hover:bg-green-600"
         >
           Create Exercise Plan
         </Button>
@@ -84,7 +84,7 @@ export function ExercisePlanCreator() {
             type="submit"
             onClick={() => createPlan()}
             disabled={isPending}
-            variant={"destructive"}
+            className=" bg-green-500 hover:bg-green-600"
           >
             Create Plan
           </Button>

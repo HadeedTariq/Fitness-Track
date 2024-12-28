@@ -16,7 +16,7 @@ const AuthProtector = () => {
     },
   });
 
-  if (user) return <Navigate to={"/"} />;
+  if (user) return <Navigate to={"/dashboard"} />;
   return (
     <>
       <Outlet />

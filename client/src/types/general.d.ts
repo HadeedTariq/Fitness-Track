@@ -48,6 +48,7 @@ interface Exercise {
   rest: number;
   description: string;
   day: string;
+  _id: string;
 }
 
 export { User, ErrResponse, Exercise, FitnessPlan };

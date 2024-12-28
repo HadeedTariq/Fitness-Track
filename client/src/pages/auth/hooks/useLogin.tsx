@@ -27,7 +27,7 @@ export const useLogin = () => {
       });
       form.reset();
       setTimeout(() => {
-        navigate("/");
+        navigate("/dashboard");
       }, 1200);
     },
     onError: (err: ErrResponse) => {

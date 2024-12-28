@@ -23,32 +23,18 @@ import { Badge } from "@/components/ui/badge";
 import {
   InvalidateQueryFilters,
   useMutation,
-  useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { planApi } from "@/utils/axios";
 import { NoPlanAvailable } from "../_components/NoPlanAvailable";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { FitnessPlan } from "@/types/general";
-import { useDispatch } from "react-redux";
-import { setExerciseSchedule } from "../reducers/appReducer";
+
+import { useExerciseSchedule } from "../hooks/useExerciseScheuler";
 
 export default function ExerciseSchedule() {
-  const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const { data: fitnessPlan, isLoading } = useQuery({
-    queryKey: ["fitnessPlan"],
-    queryFn: async () => {
-      const { data } = await planApi.get("/");
-
-      if (data.message) {
-        return null;
-      }
-      dispatch(setExerciseSchedule(data));
-      return data as FitnessPlan;
-    },
-  });
+  const { data: fitnessPlan, isLoading } = useExerciseSchedule();
 
   const { mutate: deleteExercisePlan, isPending } = useMutation({
     mutationKey: ["deleteExercisePlan"],

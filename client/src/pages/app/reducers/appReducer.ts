@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Exercise, FitnessPlan, User } from "../../../types/general";
+import { getDayName } from "@/utils/utils";
 
 export type AppState = {
   user: User | null;
   dropdown: boolean;
-  todayExercises: Exercise | null;
+  todayExercises: Exercise[];
   exerciseSchedule: FitnessPlan | null;
 };
 
@@ -12,7 +13,7 @@ const initialState: AppState = {
   user: null,
   dropdown: false,
   exerciseSchedule: null,
-  todayExercises: null,
+  todayExercises: [],
 };
 
 const appReducer = createSlice({
@@ -28,11 +29,19 @@ const appReducer = createSlice({
     setExerciseSchedule: (state, { payload }: { payload: FitnessPlan }) => {
       state.exerciseSchedule = payload;
     },
-    setTodayExercise: (state) => {},
+    setTodayExercises(state) {
+      const day = getDayName();
+      const exercises = Array.isArray(state.exerciseSchedule?.exercises)
+        ? state.exerciseSchedule.exercises.filter(
+            (exercise) => exercise.day.toLowerCase() === day.toLowerCase()
+          )
+        : [];
+      state.todayExercises = exercises;
+    },
   },
 });
 
 export default appReducer.reducer;
 
-export const { setUser, setDropDown, setTodayExercise, setExerciseSchedule } =
+export const { setUser, setDropDown, setTodayExercises, setExerciseSchedule } =
   appReducer.actions;

@@ -45,14 +45,17 @@ export function DietPlanCreator() {
       });
       setObjective("");
       setTimeout(() => {
-        navigate("/exerciseSchedule");
+        navigate("/dietSchedule");
       }, 1000);
     },
   });
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" className="my-6 bg-red-500 hover:bg-red-600">
+        <Button
+          variant="default"
+          className="my-6 bg-green-500 hover:bg-green-600"
+        >
           Create Diet Plan
         </Button>
       </DialogTrigger>
@@ -82,7 +85,7 @@ export function DietPlanCreator() {
             type="submit"
             onClick={() => createDietPlan()}
             disabled={isPending}
-            variant={"destructive"}
+            className=" bg-green-500 hover:bg-green-600"
           >
             Create Plan
           </Button>

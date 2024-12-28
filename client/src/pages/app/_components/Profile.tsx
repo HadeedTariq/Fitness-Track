@@ -14,6 +14,10 @@ import { UserProfile } from "../types/appTypes";
 import { ExercisePlanCreator } from "./ExercisePlanCreator";
 import { DietPlanCreator } from "./DietPlanCreator";
 
+import { useQuery } from "@tanstack/react-query";
+import { dailyExerciseApi } from "@/utils/axios";
+import WeeklyProgressBar from "./ProgressTab";
+
 export default function ProfileDashboard({
   profile,
 }: {
@@ -27,6 +31,17 @@ export default function ProfileDashboard({
   };
 
   const bmiCategory = getBMICategory(parseFloat(profile.bmi));
+  const { data: progress, isLoading } = useQuery({
+    queryKey: ["progressData"],
+    queryFn: async () => {
+      const { data } = await dailyExerciseApi.get("/progress");
+      console.log(data);
+
+      return data;
+    },
+  });
+
+  if (isLoading) return <h1>Loading..</h1>;
 
   return (
     <div className="container mx-auto p-6">
@@ -112,20 +127,70 @@ export default function ProfileDashboard({
             </TabsContent>
 
             <TabsContent value="progress">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your Progress</CardTitle>
-                  <CardDescription>
-                    Track your fitness journey over time.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-center text-muted-foreground">
-                    No progress data available yet. Keep working towards your
-                    goals!
-                  </p>
-                </CardContent>
-              </Card>
+              {progress ? (
+                <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+                  <div className="max-w-3xl mx-auto">
+                    <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
+                      Your 12-Week Exercise Progress
+                    </h1>
+                    <WeeklyProgressBar
+                      planDurationWeeks={progress.planDurationWeeks}
+                      progress={progress.progress}
+                    />
+                    <div className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+                      <div className="px-4 py-5 sm:px-6">
+                        <h2 className="text-lg leading-6 font-medium text-gray-900">
+                          Progress Details
+                        </h2>
+                        <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                          Detailed breakdown of your weekly progress.
+                        </p>
+                      </div>
+                      <div className="border-t border-gray-200">
+                        <dl>
+                          {progress.progress?.map(
+                            (week: any, index: number) => (
+                              <div
+                                key={week.week}
+                                className={
+                                  index % 2 === 0
+                                    ? "bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                                    : "bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+                                }
+                              >
+                                <dt className="text-sm font-medium text-gray-500">
+                                  Week {week.week}
+                                </dt>
+                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                  Completed {week.completedExercises} out of{" "}
+                                  {week.totalExercises} exercises
+                                  <span
+                                    className={`ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                      week.status === "green"
+                                        ? "bg-green-100 text-green-800"
+                                        : week.status === "yellow"
+                                        ? "bg-yellow-100 text-yellow-800"
+                                        : "bg-red-100 text-red-800"
+                                    }`}
+                                  >
+                                    {week.status === "green"
+                                      ? "Completed"
+                                      : week.status === "yellow"
+                                      ? "In Progress"
+                                      : "Low Progress"}
+                                  </span>
+                                </dd>
+                              </div>
+                            )
+                          )}
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p>Please create exercise plan</p>
+              )}
             </TabsContent>
           </Tabs>
         </CardContent>

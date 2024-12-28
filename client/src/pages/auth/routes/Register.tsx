@@ -24,7 +24,7 @@ const Register = () => {
           <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
             <img
               alt=""
-              src={"/main.jpg"}
+              src={"/Hero.webp"}
               className="absolute inset-0 h-full w-full object-fill max-[1050px]:object-cover"
             />
           </aside>
@@ -42,7 +42,8 @@ const Register = () => {
 
               <form
                 className="mt-8 grid grid-cols-6 gap-6"
-                onSubmit={handleSubmit(createAccount)}>
+                onSubmit={handleSubmit(createAccount)}
+              >
                 <div className="col-span-6 sm:col-span-3">
                   <p className="block text-sm font-medium text-gray-700">
                     Username
@@ -150,16 +151,18 @@ const Register = () => {
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                   <button
                     disabled={formState.disabled || isPending}
-                    className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600  disabled:bg-blue-400"
-                    type="submit">
+                    className="inline-block shrink-0 rounded-md border border-green-600 bg-green-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-green-600  disabled:bg-green-400"
+                    type="submit"
+                  >
                     Create an account
                   </button>
 
                   <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-                    Already have an account?
+                    Already have an account?{" "}
                     <Link
                       className="text-gray-700 underline"
-                      to={"/auth/login"}>
+                      to={"/auth/login"}
+                    >
                       Log in
                     </Link>
                     .

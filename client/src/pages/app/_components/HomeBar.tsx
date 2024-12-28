@@ -24,17 +24,17 @@ const HomeBar = () => {
   }
   return (
     <div className="flex flex-col">
-      <div className="relative h-[50px]">
+      <div className="relative h-[80px]">
         <NavBar />
       </div>
-      <div className="flex gap-2 w-full">
-        <div className="relative w-[220px] h-[94.1vh] max-[700px]:hidden">
+      <div className="flex  w-full">
+        <div className="relative w-[220px] h-[94.1vh] max-[700px]:hidden mr-0">
           <SideBar />
         </div>
         <div className="min-[700px]:hidden">
           <SideBarDrawer />
         </div>
-        <div className="w-full">
+        <div className="w-full ml-0">
           <Outlet />
         </div>
       </div>
