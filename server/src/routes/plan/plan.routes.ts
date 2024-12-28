@@ -7,6 +7,7 @@ import { User } from "../user/user.model";
 import { ExercisePlan } from "./exercise.model";
 import { MongooseError } from "mongoose";
 import { DietPlan } from "./diet.model";
+import { Progress } from "../dailyExercise/dailyExercise.model";
 
 const router = Router();
 
@@ -130,11 +131,30 @@ router.post(
       );
 
       const actualPlanData = JSON.parse(planData);
-      console.log(actualPlanData);
 
       const fitnessPlanModel = await ExercisePlan.create({
         fitnessPlan: actualPlanData,
         user: _id,
+      });
+
+      const exercisesLength = fitnessPlanModel.fitnessPlan.exercises.length;
+      const progress = [];
+      let duration: any = fitnessPlanModel.fitnessPlan.duration;
+      duration = Number(duration.split(" ")[0]);
+
+      for (let i = 1; i <= duration; i++) {
+        progress.push({
+          week: i,
+          totalExercises: exercisesLength,
+          completedExercises: 0,
+          status: "red",
+        });
+      }
+
+      await Progress.create({
+        userId: _id,
+        planDurationWeeks: duration,
+        progress: progress,
       });
 
       res.json({ message: "Your plan is created successfully" });
@@ -226,9 +246,8 @@ router.post(
       );
 
       const actualPlanData = JSON.parse(planData);
-      console.log(actualPlanData);
 
-      const fitnessPlanModel = await DietPlan.create({
+      const dietPlanModel = await DietPlan.create({
         dietPlan: actualPlanData,
         user: _id,
       });

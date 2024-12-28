@@ -1,32 +1,27 @@
 import { Router } from "express";
 import { authChecker } from "../../middlewares/authChecker";
 import asyncHandler from "express-async-handler";
-import { DailyExercise } from "./dailyExercise.model";
-import { ExercisePlan } from "../plan/exercise.model";
+import { Progress } from "./dailyExercise.model";
+
 const router = Router();
 
 router.use(authChecker);
 
-router.post(
-  "/done",
+router.get(
+  "/progress",
   asyncHandler(async (req, res, next) => {
-    const { exerciseTimeInSeconds, exerciseTimeInMinutes, exerciseName } =
-      req.body;
-    console.log(req.body);
-    if (!exerciseTimeInSeconds || !exerciseTimeInMinutes || !exerciseName) {
-      return next({ message: "Please fill all the fields", status: 404 });
-    }
-
-    const userTodayExercise = await DailyExercise.create({
-      exerciseTimeInSeconds,
-      exerciseTimeInMinutes,
-      user: req.body.user._id,
-      exerciseName,
+    const { _id } = req.body.user;
+    const progressData = await Progress.findOne({
+      userId: _id,
     });
-    if (userTodayExercise) {
-      res.status(201).json({ message: "You exercise today successfully" });
-    }
+    res.status(200).json(progressData);
   })
 );
+router.post(
+  "/complete-today",
+  asyncHandler(async (req, res, next) => {})
+);
+
+router.use(authChecker);
 
 export { router as dailyExerciseRouter };
