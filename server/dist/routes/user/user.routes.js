@@ -106,16 +106,22 @@ router.post("/login", (0, express_async_handler_1.default)(async (req, res, next
 router.get("/", authChecker_1.authChecker, (0, express_async_handler_1.default)(async (req, res) => {
     const user = req.body.user;
     const userInfo = await user_model_1.User.findById(user._id).select("-password -refreshToken");
+    if (userInfo) {
+        userInfo.bmi = userInfo.bmi.split(".")[0];
+    }
     res
         .status(200)
         .json({ userInfo, message: "User info fetched successfully" });
 }));
-router.post("/logout", authChecker_1.authChecker, (0, express_async_handler_1.default)(async (req, res) => {
+router.post("/logout", 
+// authChecker,
+(0, express_async_handler_1.default)(async (req, res) => {
     res
         .clearCookie("refreshToken")
         .clearCookie("accessToken")
         .status(200)
         .json({ message: "User logged out successfully" });
+    return;
 }));
 router.get("/profile", authChecker_1.authChecker, (0, express_async_handler_1.default)(async (req, res, next) => {
     const _id = req.body.user?._id;
@@ -170,6 +176,7 @@ router.get("/profile", authChecker_1.authChecker, (0, express_async_handler_1.de
         },
     ]);
     if (userProfile) {
+        userProfile[0].bmi = userProfile[0].bmi.split(".")[0];
         res.status(200).json(userProfile[0]);
     }
     else {

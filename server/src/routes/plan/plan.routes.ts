@@ -88,7 +88,7 @@ router.post(
         planName (String): The name of the fitness plan.
         description (String): A detailed description of the fitness plan.
         frequency (String): E.g., "3-4 days per week".
-        duration (String): E.g., "8-12 weeks".
+        duration (String): E.g., "12 weeks".
         exercises (Array of Exercise objects): List of exercises included in the plan.
         cardio (Cardio Object): Details about cardio activities.
         nutrition (Nutrition Object): Nutrition-related guidelines.
@@ -119,8 +119,7 @@ router.post(
         Provide only the fitness plan JSON data for this person.
         Ensure all data follows the exact field types and format described.
         Avoid including any Mongoose schema type definitions in the response.
-        Ensure the JSON is well-formed with no syntax errors.I want exact reps not min max
-
+        Ensure the JSON is well-formed with no syntax errors.I want exact reps not min max Please also provide data according to this schema
       `;
 
       const result = await model.generateContent(prompt);
@@ -131,6 +130,8 @@ router.post(
       );
 
       const actualPlanData = JSON.parse(planData);
+
+      console.log(actualPlanData);
 
       const fitnessPlanModel = await ExercisePlan.create({
         fitnessPlan: actualPlanData,
@@ -282,6 +283,7 @@ router.delete("/delete-plan", async (req, res) => {
 
     if (planType === "exercise") {
       deletedPlan = await ExercisePlan.findOneAndDelete({ user: user._id });
+      Progress.findOneAndDelete({ userId: user._id });
     } else if (planType === "diet") {
       deletedPlan = await DietPlan.findOneAndDelete({ user: user._id });
     } else {

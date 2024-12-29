@@ -13,9 +13,10 @@ import { useApp } from "../hooks/useApp";
 
 import { useExerciseSchedule } from "../hooks/useExerciseScheuler";
 import RestDay from "../_components/RestDay";
+import { Navigate } from "react-router-dom";
 
 const DailyExercisePage: React.FC = () => {
-  const { isLoading } = useExerciseSchedule();
+  const { isLoading, isError } = useExerciseSchedule();
   const { todayExercises: exercises } = useApp();
 
   const [completedExercises, setCompletedExercises] = useState<
@@ -32,6 +33,7 @@ const DailyExercisePage: React.FC = () => {
     }));
   };
   if (isLoading) return <h1>Loading...</h1>;
+  if (exercises.length < 1 || isError) return <Navigate to={"/dashboard"} />;
 
   return (
     <>

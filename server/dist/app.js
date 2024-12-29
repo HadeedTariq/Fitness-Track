@@ -36,8 +36,8 @@ const dbConnection_1 = require("./connection/dbConnection");
 const user_routes_1 = require("./routes/user/user.routes");
 const dailyExercise_routes_1 = require("./routes/dailyExercise/dailyExercise.routes");
 const exercise_routes_1 = require("./routes/exercise/exercise.routes");
-const diet_routes_1 = require("./routes/diet/diet.routes");
 const post_routes_1 = require("./routes/posts/post.routes");
+const plan_routes_1 = require("./routes/plan/plan.routes");
 require("dotenv").config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
@@ -63,8 +63,8 @@ app.get("/", (req, res) => {
 app.use("/user", user_routes_1.userRouter);
 app.use("/dailyExercise", dailyExercise_routes_1.dailyExerciseRouter);
 app.use("/exercise", exercise_routes_1.exerciseRouter);
-app.use("/diet", diet_routes_1.dietRouter);
 app.use("/post", post_routes_1.postRouter);
+app.use("/plan", plan_routes_1.planRouter);
 app.listen(port, () => {
     console.log(`App is listening on port ${port}`);
 });

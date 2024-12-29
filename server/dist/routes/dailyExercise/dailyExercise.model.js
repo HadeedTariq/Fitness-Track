@@ -1,27 +1,55 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DailyExercise = void 0;
-const mongoose_1 = require("mongoose");
-// ! how can I check that the user exercises today or not?
-// TODO: We can check that the user exercise today or not by getting the last element added if last element created date is equal to today date that means that the user exercises today but if not that means user not exercises today
-const dailyExerciseSchema = new mongoose_1.Schema({
-    exerciseTimeInMinutes: {
-        type: Number,
-        required: true,
-    },
-    exerciseTimeInSeconds: {
-        type: Number,
-        required: true,
-    },
-    user: {
+exports.Progress = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const progressSchema = new mongoose_1.default.Schema({
+    userId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "User",
-        type: mongoose_1.Schema.Types.ObjectId,
         required: true,
     },
-    exerciseName: {
-        type: String,
+    planDurationWeeks: {
+        type: Number,
         required: true,
     },
+    progress: [
+        {
+            week: {
+                type: Number,
+                required: true,
+            },
+            totalExercises: {
+                type: Number,
+                required: true,
+            },
+            completedExercises: {
+                type: Number,
+                required: true,
+            },
+            status: {
+                type: String,
+                enum: ["green", "yellow", "red"],
+                default: "red",
+            },
+        },
+    ],
 }, { timestamps: true });
-exports.DailyExercise = (0, mongoose_1.model)("DailyExercise", dailyExerciseSchema);
+progressSchema.methods.calculateStatus = function () {
+    this.progress.forEach((weekProgress) => {
+        const completionRate = (weekProgress.completedExercises / weekProgress.totalExercises) * 100;
+        if (completionRate === 100) {
+            weekProgress.status = "green";
+        }
+        else if (completionRate >= 50) {
+            weekProgress.status = "yellow";
+        }
+        else {
+            weekProgress.status = "red";
+        }
+    });
+};
+exports.Progress = mongoose_1.default.model("Progress", progressSchema);
 //# sourceMappingURL=dailyExercise.model.js.map

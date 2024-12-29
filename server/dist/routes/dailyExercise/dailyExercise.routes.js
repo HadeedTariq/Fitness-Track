@@ -11,28 +11,13 @@ const dailyExercise_model_1 = require("./dailyExercise.model");
 const router = (0, express_1.Router)();
 exports.dailyExerciseRouter = router;
 router.use(authChecker_1.authChecker);
-router.post("/done", (0, express_async_handler_1.default)(async (req, res, next) => {
-    const { exerciseTimeInSeconds, exerciseTimeInMinutes, exerciseName } = req.body;
-    console.log(req.body);
-    if (!exerciseTimeInSeconds || !exerciseTimeInMinutes || !exerciseName) {
-        return next({ message: "Please fill all the fields", status: 404 });
-    }
-    const userTodayExercise = await dailyExercise_model_1.DailyExercise.create({
-        exerciseTimeInSeconds,
-        exerciseTimeInMinutes,
-        user: req.body.user._id,
-        exerciseName,
+router.get("/progress", (0, express_async_handler_1.default)(async (req, res, next) => {
+    const { _id } = req.body.user;
+    const progressData = await dailyExercise_model_1.Progress.findOne({
+        userId: _id,
     });
-    if (userTodayExercise) {
-        res.status(201).json({ message: "You exercise today successfully" });
-    }
+    res.status(200).json(progressData);
 }));
-router.get("/today", (0, express_async_handler_1.default)(async (req, res, next) => {
-    const exercise = await dailyExercise_model_1.DailyExercise.findOne({
-        user: req.body.user._id,
-    })
-        .sort({ createdAt: -1 })
-        .select("-exerciseTimeInMinutes -exerciseTimeInSeconds");
-    res.status(200).json(exercise);
-}));
+router.post("/complete-today", (0, express_async_handler_1.default)(async (req, res, next) => { }));
+router.use(authChecker_1.authChecker);
 //# sourceMappingURL=dailyExercise.routes.js.map

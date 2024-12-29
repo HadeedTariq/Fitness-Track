@@ -10,9 +10,9 @@ const authChecker = (req, res, next) => {
     if (!token) {
         return next({ message: "Token is required", status: 404 });
     }
-    const isCorrectAccessToken = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    if (isCorrectAccessToken) {
-        req.body.user = isCorrectAccessToken;
+    const user = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    if (user) {
+        req.body.user = user;
         next();
     }
     else {
