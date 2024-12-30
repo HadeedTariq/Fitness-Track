@@ -117,10 +117,16 @@ router.post("/logout",
 // authChecker,
 (0, express_async_handler_1.default)(async (req, res) => {
     res
-        .clearCookie("refreshToken")
-        .clearCookie("accessToken")
-        .status(200)
-        .json({ message: "User logged out successfully" });
+      .clearCookie('accessToken', {
+        secure: true,
+        httpOnly: false,
+        sameSite: 'none',
+      }).clearCookie('refreshToken', {
+        secure: true,
+        httpOnly: false,
+        sameSite: 'none',
+      })
+      .json({ message: 'User logged out successfully' });
     return;
 }));
 router.get("/profile", authChecker_1.authChecker, (0, express_async_handler_1.default)(async (req, res, next) => {
